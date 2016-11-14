@@ -1,0 +1,209 @@
+= Cheatsheets
+
+[[Config]]
+== Config
+
+++++
+++++
+'''
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[codec]]`codec`|`String`|
++++
+Redis key/value codec. Default is json-codec
++++
+|[[codecProvider]]`codecProvider`|`String`|
++++
+For codec registry and look up. DefaultCodecProvider used by default.
++++
+|[[nettyThreads]]`nettyThreads`|`Number (Integer)`|
++++
+Threads amount shared between all redis clients used by Redisson.
+ <p>
+ Default is <code>0</code>.
+ <p>
+ <code>0</code> means <code>current_processors_amount * 2</code>
++++
+|[[redissonReferenceEnabled]]`redissonReferenceEnabled`|`Boolean`|
++++
+Config option for enabling Redisson Reference feature
+ <p>
+ Default value is <code>true</code>
++++
+|[[threads]]`threads`|`Number (Integer)`|
++++
+Threads amount shared across all listeners of <code>RTopic</code> object, 
+ invocation handlers of <code>RRemoteService</code> object  
+ and <code>RExecutorService</code> tasks.
+ <p>
+ Default is <code>0</code>.
+ <p>
+ <code>0</code> means <code>current_processors_amount * 2</code>
++++
+|[[useLinuxNativeEpoll]]`useLinuxNativeEpoll`|`Boolean`|
++++
+Activates an unix socket if servers binded to loopback interface.
+ Also used for epoll transport activation.
+ <b>netty-transport-native-epoll</b> library should be in classpath
++++
+|===
+
+[[GeoEntry]]
+== GeoEntry
+
+++++
+++++
+'''
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[latitude]]`latitude`|`Number (double)`|-
+|[[longitude]]`longitude`|`Number (double)`|-
+|===
+
+[[GeoPosition]]
+== GeoPosition
+
+++++
+++++
+'''
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[latitude]]`latitude`|`Number (double)`|-
+|[[longitude]]`longitude`|`Number (double)`|-
+|===
+
+[[SingleServerConfig]]
+== SingleServerConfig
+
+++++
+++++
+'''
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[address]]`address`|`String`|
++++
+Set server address. Use follow format -- host:port
++++
+|[[clientName]]`clientName`|`String`|
++++
+Setup connection name during connection init
+ via CLIENT SETNAME command
++++
+|[[connectTimeout]]`connectTimeout`|`Number (Integer)`|
++++
+Timeout during connecting to any Redis server.
+ <p>
+ Default is <code>10000</code> milliseconds.
++++
+|[[connectionMinimumIdleSize]]`connectionMinimumIdleSize`|`Number (Integer)`|
++++
+Minimum idle Redis connection amount.
+ <p>
+ Default is 5
++++
+|[[connectionPoolSize]]`connectionPoolSize`|`Number (Integer)`|
++++
+Redis connection pool size
+ <p>
+ Default is <code>250</code>
++++
+|[[database]]`database`|`Number (Integer)`|
++++
+Database index used for Redis connection
+ Default is <code>0</code>
++++
+|[[dnsMonitoring]]`dnsMonitoring`|`Boolean`|
++++
+Monitoring of the endpoint address for DNS changes.
+
+ Default is false
++++
+|[[dnsMonitoringInterval]]`dnsMonitoringInterval`|`Number (Long)`|
++++
+Interval in milliseconds to check the endpoint DNS if link is true.
+
+ Default is 5000
++++
+|[[failedAttempts]]`failedAttempts`|`Number (Integer)`|
++++
+Redis server will be excluded from the internal list of available nodes
+ when sequential unsuccessful execution attempts of any Redis command
+ on this server reaches <code>failedAttempts</code>.
+ <p>
+ Default is 3
++++
+|[[idleConnectionTimeout]]`idleConnectionTimeout`|`Number (Integer)`|
++++
+If pooled connection not used for a <code>timeout</code> time
+ and current connections amount bigger than minimum idle connections pool size,
+ then it will closed and removed from pool.
++++
+|[[password]]`password`|`String`|
++++
+Password for Redis authentication. Should be null if not needed
+ Default is <code>null</code>
++++
+|[[pingTimeout]]`pingTimeout`|`Number (Integer)`|
++++
+Ping timeout used in <code>Node.ping</code> and <code>Node.pingAll</code> operation
++++
+|[[reconnectionTimeout]]`reconnectionTimeout`|`Number (Integer)`|
++++
+Reconnection attempt timeout to Redis server when
+ it has been excluded from internal list of available servers.
+ <p>
+ On every such timeout event Redisson tries
+ to connect to disconnected Redis server.
+ <p>
+ Default is 3000
++++
+|[[retryAttempts]]`retryAttempts`|`Number (Integer)`|
++++
+Error will be thrown if Redis command can't be sended to Redis server after <code>retryAttempts</code>.
+ But if it sent succesfully then <code>timeout</code> will be started.
+ <p>
+ Default is <code>3</code> attempts
++++
+|[[retryInterval]]`retryInterval`|`Number (Integer)`|
++++
+Time interval after which another one attempt to send Redis command will be executed.
+ <p>
+ Default is <code>1500</code> milliseconds
++++
+|[[subscriptionConnectionMinimumIdleSize]]`subscriptionConnectionMinimumIdleSize`|`Number (Integer)`|
++++
+Minimum idle subscription connection amount.
+ <p>
+ Default is 1
++++
+|[[subscriptionConnectionPoolSize]]`subscriptionConnectionPoolSize`|`Number (Integer)`|
++++
+Redis subscription-connection pool size limit
+ <p>
+ Default is 50
++++
+|[[subscriptionsPerConnection]]`subscriptionsPerConnection`|`Number (Integer)`|
++++
+Subscriptions per Redis connection limit
+ Default is 5
++++
+|[[timeout]]`timeout`|`Number (Integer)`|
++++
+Redis server response timeout.
+ <p>
+ Default is <code>3000</code> milliseconds
++++
+|===
+

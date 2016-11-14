@@ -1,5 +1,9 @@
 *.class
-
+nbactions.xml
+nbactions-unit-test.xml
+nbactions-coverage.xml
+nb-configuration.xml
+target
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 

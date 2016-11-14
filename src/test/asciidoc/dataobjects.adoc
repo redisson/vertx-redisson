@@ -1,0 +1,19 @@
+= Cheatsheets
+
+[[RedisVersion]]
+== RedisVersion
+
+++++
+++++
+'''
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[fullVersion]]`fullVersion`|`String`|-
+|[[majorVersion]]`majorVersion`|`Number (int)`|-
+|[[minorVersion]]`minorVersion`|`Number (int)`|-
+|[[patchVersion]]`patchVersion`|`Number (int)`|-
+|===
+
