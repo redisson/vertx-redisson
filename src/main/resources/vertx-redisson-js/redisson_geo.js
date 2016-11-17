@@ -20,7 +20,6 @@ var utils = require('vertx-js/util/utils');
 var io = Packages.io;
 var JsonObject = io.vertx.core.json.JsonObject;
 var JRedissonGeo = org.redisson.vertx.api.RedissonGeo;
-var GeoEntry = org.redisson.vertx.api.GeoEntry;
 
 /**
 
@@ -46,7 +45,7 @@ var RedissonGeo = function(j_val) {
   this.add = function() {
     var __args = arguments;
     if (__args.length === 2 && typeof __args[0] === 'object' && __args[0] instanceof Array && typeof __args[1] === 'function') {
-      j_redissonGeo["add(java.util.List,io.vertx.core.Handler)"](utils.convParamListDataObject(__args[0], function(json) { return new GeoEntry(json); }), function(ar) {
+      j_redissonGeo["add(io.vertx.core.json.JsonArray,io.vertx.core.Handler)"](utils.convParamJsonArray(__args[0]), function(ar) {
       if (ar.succeeded()) {
         __args[1](utils.convReturnLong(ar.result()), null);
       } else {
@@ -70,16 +69,23 @@ var RedissonGeo = function(j_val) {
    Adds geospatial member and gives back the number of elements added to the
    sorted set, not including elements already existing for which 
    the score was updated.
+   
+   JsonObject format: 
+   {
+        longitude: double,
+        latitude: double,
+        member: Object
+   }
 
    @public
-   @param entry {Object} - GeoEntry object 
+   @param entry {Object} - JsonObject object. 
    @param handler {function} - Handler for the result of this call. 
    @return {RedissonGeo} this
    */
   this.addEntry = function(entry, handler) {
     var __args = arguments;
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
-      j_redissonGeo["addEntry(org.redisson.vertx.api.GeoEntry,io.vertx.core.Handler)"](entry != null ? new GeoEntry(new JsonObject(JSON.stringify(entry))) : null, function(ar) {
+      j_redissonGeo["addEntry(io.vertx.core.json.JsonObject,io.vertx.core.Handler)"](utils.convParamJsonObject(entry), function(ar) {
       if (ar.succeeded()) {
         handler(utils.convReturnLong(ar.result()), null);
       } else {
@@ -117,6 +123,14 @@ var RedissonGeo = function(j_val) {
   /**
    Returns 11 characters Geohash string mapped by defined member in a form
    of a JsonArray.
+   
+   Result JsonArray format:
+   [{
+      member: Object,
+      hash: String
+   },
+   ...
+   ]
 
    @public
    @param members {todo} - objects 

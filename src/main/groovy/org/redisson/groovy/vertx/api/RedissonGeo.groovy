@@ -19,12 +19,11 @@ import groovy.transform.CompileStatic
 import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.json.JsonObject
 import io.vertx.core.json.JsonArray
-import java.util.List
 import org.redisson.api.GeoUnit
+import io.vertx.core.json.JsonObject
 import org.redisson.api.GeoOrder
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
-import org.redisson.vertx.api.GeoEntry
 /**
 */
 @CompileStatic
@@ -54,24 +53,40 @@ public class RedissonGeo<V> {
    * Adds geospatial member and gives back the number of elements added to the
    * sorted set, not including elements already existing for which 
    * the score was updated.
-   * @param entry - GeoEntry object (see <a href="../../../../../../../cheatsheet/GeoEntry.html">GeoEntry</a>)
+   * 
+   * JsonObject format: 
+   * {
+   *      longitude: double,
+   *      latitude: double,
+   *      member: Object
+   * }
+   * @param entry - JsonObject object.
    * @param handler - Handler for the result of this call.
    * @return this
    */
-  public RedissonGeo<V> addEntry(Map<String, Object> entry = [:], Handler<AsyncResult<Long>> handler) {
-    delegate.addEntry(entry != null ? new org.redisson.vertx.api.GeoEntry(io.vertx.lang.groovy.InternalHelper.toJsonObject(entry)) : null, handler);
+  public RedissonGeo<V> addEntry(Map<String, Object> entry, Handler<AsyncResult<Long>> handler) {
+    delegate.addEntry(entry != null ? new io.vertx.core.json.JsonObject(entry) : null, handler);
     return this;
   }
   /**
    * Adds geospatial member and gives back the number of elements added to the
    * sorted set, not including elements already existing for which 
    * the score was updated.
-   * @param entries - list of GeoEntry objects
+   * 
+   * JsonArray format: 
+   * [{
+   *      longitude: double,
+   *      latitude: double,
+   *      member: Object
+   * }, 
+   * ...
+   * ]
+   * @param entries - JsonArray object
    * @param handler - Handler for the result of this call.
    * @return this
    */
-  public RedissonGeo<V> add(List<Map<String, Object>> entries, Handler<AsyncResult<Long>> handler) {
-    delegate.add(entries != null ? (List)entries.collect({new org.redisson.vertx.api.GeoEntry(io.vertx.lang.groovy.InternalHelper.toJsonObject(it))}) : null, handler);
+  public RedissonGeo<V> add(List<Object> entries, Handler<AsyncResult<Long>> handler) {
+    delegate.add(entries != null ? new io.vertx.core.json.JsonArray(entries) : null, handler);
     return this;
   }
   /**
@@ -89,6 +104,14 @@ public class RedissonGeo<V> {
   /**
    * Returns 11 characters Geohash string mapped by defined member in a form
    * of a JsonArray.
+   * 
+   * Result JsonArray format:
+   * [{
+   *    member: Object,
+   *    hash: String
+   * },
+   * ...
+   * ]
    * @param members - objects
    * @param handler - Handler for the result of this call.
    * @return this

@@ -17,15 +17,18 @@ package org.redisson.vertx.utils;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.redisson.vertx.api.GeoPosition;
+import org.redisson.api.GeoPosition;
+import org.redisson.api.GeoEntry;
 
-public class AsyncResultTransformers {
+public class ObjectTransformers {
 
     public static final Function noTransform = r -> r;
 
@@ -49,7 +52,15 @@ public class AsyncResultTransformers {
 
     public static final Function geoPositionTransformer
             = mapToJsonObjectArray("member", "geoPosition", noTransform,
-                    r -> new GeoPosition((org.redisson.api.GeoPosition) r));
+                    r -> new JsonObject()
+                    .put("longitude", ((GeoPosition) r).getLongitude())
+                    .put("latitude", ((GeoPosition) r).getLatitude()));
+
+    public static final Function<JsonArray, GeoEntry[]> jsonArrayToGeoEntryArray
+            = jsonArrayToArray(r -> new GeoEntry(r.getDouble("longitude"),
+                            r.getDouble("latitude"),
+                            r.getValue("member")),
+                    r -> new GeoEntry[r]);
 
     public static Function mapToJsonObjectArray(String keyName,
             String valueName) {
@@ -65,10 +76,20 @@ public class AsyncResultTransformers {
             Stream<Map.Entry> stream = map.entrySet().stream();
             List list = stream.map(
                     (Map.Entry e) -> new JsonObject()
-                            .put(keyName, keyTransformer.apply(e.getKey()))
-                            .put(valueName, valueTransformer.apply(e.getValue()))
+                    .put(keyName, keyTransformer.apply(e.getKey()))
+                    .put(valueName, valueTransformer.apply(e.getValue()))
             ).collect(Collectors.toList());
             return new JsonArray(list);
         };
     }
+
+    public static <T> Function<JsonArray, T[]> jsonArrayToArray(
+            Function<JsonObject, T> elementTransformer,
+            IntFunction<T[]> arraySupplier) {
+        return r -> {
+            Stream stream = r.getList().stream().map(elementTransformer);
+            return (T[]) stream.toArray(arraySupplier);
+        };
+    }
+
 }

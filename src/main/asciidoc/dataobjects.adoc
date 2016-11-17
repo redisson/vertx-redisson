@@ -51,36 +51,6 @@ Activates an unix socket if servers binded to loopback interface.
 +++
 |===
 
-[[GeoEntry]]
-== GeoEntry
-
-++++
-++++
-'''
-
-[cols=">25%,^25%,50%"]
-[frame="topbot"]
-|===
-^|Name | Type ^| Description
-|[[latitude]]`latitude`|`Number (double)`|-
-|[[longitude]]`longitude`|`Number (double)`|-
-|===
-
-[[GeoPosition]]
-== GeoPosition
-
-++++
-++++
-'''
-
-[cols=">25%,^25%,50%"]
-[frame="topbot"]
-|===
-^|Name | Type ^| Description
-|[[latitude]]`latitude`|`Number (double)`|-
-|[[longitude]]`longitude`|`Number (double)`|-
-|===
-
 [[SingleServerConfig]]
 == SingleServerConfig
 

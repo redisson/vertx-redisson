@@ -1,22 +1,22 @@
-require 'vertx-redisson-test/redis_process'
+require 'vertx-redisson/redis_process'
 require 'vertx/util/utils.rb'
-# Generated from org.redisson.misc.RedisRunner
-module VertxRedissonTest
+# Generated from org.redisson.vertx.misc.RedisRunner
+module VertxRedisson
   class RedisRunner
     # @private
-    # @param j_del [::VertxRedissonTest::RedisRunner] the java delegate
+    # @param j_del [::VertxRedisson::RedisRunner] the java delegate
     def initialize(j_del)
       @j_del = j_del
     end
     # @private
-    # @return [::VertxRedissonTest::RedisRunner] the underlying java delegate
+    # @return [::VertxRedisson::RedisRunner] the underlying java delegate
     def j_del
       @j_del
     end
-    # @return [::VertxRedissonTest::RedisRunner]
+    # @return [::VertxRedisson::RedisRunner]
     def self.new_instance
       if !block_given?
-        return ::Vertx::Util::Utils.safe_create(Java::OrgRedissonMisc::RedisRunner.java_method(:newInstance, []).call(),::VertxRedissonTest::RedisRunner)
+        return ::Vertx::Util::Utils.safe_create(Java::OrgRedissonVertxMisc::RedisRunner.java_method(:newInstance, []).call(),::VertxRedisson::RedisRunner)
       end
       raise ArgumentError, "Invalid arguments when calling new_instance()"
     end
@@ -60,7 +60,7 @@ module VertxRedissonTest
     # @return [self]
     def appendfsync(appendfsync=nil)
       if appendfsync.class == Symbol && !block_given?
-        @j_del.java_method(:appendfsync, [Java::OrgRedissonMisc::AppendFsyncModeOptions.java_class]).call(Java::OrgRedissonMisc::AppendFsyncModeOptions.valueOf(appendfsync))
+        @j_del.java_method(:appendfsync, [Java::OrgRedissonVertxMisc::AppendFsyncModeOptions.java_class]).call(Java::OrgRedissonVertxMisc::AppendFsyncModeOptions.valueOf(appendfsync))
         return self
       end
       raise ArgumentError, "Invalid arguments when calling appendfsync(appendfsync)"
@@ -349,7 +349,7 @@ module VertxRedissonTest
     # @return [self]
     def loglevel(loglevel=nil)
       if loglevel.class == Symbol && !block_given?
-        @j_del.java_method(:loglevel, [Java::OrgRedissonMisc::LogLevelOptions.java_class]).call(Java::OrgRedissonMisc::LogLevelOptions.valueOf(loglevel))
+        @j_del.java_method(:loglevel, [Java::OrgRedissonVertxMisc::LogLevelOptions.java_class]).call(Java::OrgRedissonVertxMisc::LogLevelOptions.valueOf(loglevel))
         return self
       end
       raise ArgumentError, "Invalid arguments when calling loglevel(loglevel)"
@@ -394,7 +394,7 @@ module VertxRedissonTest
     # @return [self]
     def maxmemory_policy(maxmemoryPolicy=nil)
       if maxmemoryPolicy.class == Symbol && !block_given?
-        @j_del.java_method(:maxmemoryPolicy, [Java::OrgRedissonMisc::MaxMemoryPolicyOptions.java_class]).call(Java::OrgRedissonMisc::MaxMemoryPolicyOptions.valueOf(maxmemoryPolicy))
+        @j_del.java_method(:maxmemoryPolicy, [Java::OrgRedissonVertxMisc::MaxMemoryPolicyOptions.java_class]).call(Java::OrgRedissonVertxMisc::MaxMemoryPolicyOptions.valueOf(maxmemoryPolicy))
         return self
       end
       raise ArgumentError, "Invalid arguments when calling maxmemory_policy(maxmemoryPolicy)"
@@ -448,7 +448,7 @@ module VertxRedissonTest
     # @return [self]
     def notify_keyspace_events(notifyKeyspaceEvents=nil)
       if notifyKeyspaceEvents.class == Symbol && !block_given?
-        @j_del.java_method(:notifyKeyspaceEvents, [Java::OrgRedissonMisc::KeyspaceEventsOptions.java_class]).call(Java::OrgRedissonMisc::KeyspaceEventsOptions.valueOf(notifyKeyspaceEvents))
+        @j_del.java_method(:notifyKeyspaceEvents, [Java::OrgRedissonVertxMisc::KeyspaceEventsOptions.java_class]).call(Java::OrgRedissonVertxMisc::KeyspaceEventsOptions.valueOf(notifyKeyspaceEvents))
         return self
       end
       raise ArgumentError, "Invalid arguments when calling notify_keyspace_events(notifyKeyspaceEvents)"
@@ -591,17 +591,17 @@ module VertxRedissonTest
       end
       raise ArgumentError, "Invalid arguments when calling requirepass(requirepass)"
     end
-    # @return [::VertxRedissonTest::RedisProcess]
+    # @return [::VertxRedisson::RedisProcess]
     def run
       if !block_given?
-        return ::Vertx::Util::Utils.safe_create(@j_del.java_method(:run, []).call(),::VertxRedissonTest::RedisProcess)
+        return ::Vertx::Util::Utils.safe_create(@j_del.java_method(:run, []).call(),::VertxRedisson::RedisProcess)
       end
       raise ArgumentError, "Invalid arguments when calling run()"
     end
-    # @return [::VertxRedissonTest::RedisProcess]
+    # @return [::VertxRedisson::RedisProcess]
     def run_and_check
       if !block_given?
-        return ::Vertx::Util::Utils.safe_create(@j_del.java_method(:runAndCheck, []).call(),::VertxRedissonTest::RedisProcess)
+        return ::Vertx::Util::Utils.safe_create(@j_del.java_method(:runAndCheck, []).call(),::VertxRedisson::RedisProcess)
       end
       raise ArgumentError, "Invalid arguments when calling run_and_check()"
     end
@@ -611,10 +611,10 @@ module VertxRedissonTest
     #  $ mvn -DargLine="-DredisBinary=`which redis-server`" -Punit-test clean \
     #  verify
     # @param [String] configPath 
-    # @return [::VertxRedissonTest::RedisProcess] Process running redis instance
+    # @return [::VertxRedisson::RedisProcess] Process running redis instance
     def run_with_config_file(configPath=nil)
       if configPath.class == String && !block_given?
-        return ::Vertx::Util::Utils.safe_create(@j_del.java_method(:runWithConfigFile, [Java::java.lang.String.java_class]).call(configPath),::VertxRedissonTest::RedisProcess)
+        return ::Vertx::Util::Utils.safe_create(@j_del.java_method(:runWithConfigFile, [Java::java.lang.String.java_class]).call(configPath),::VertxRedisson::RedisProcess)
       end
       raise ArgumentError, "Invalid arguments when calling run_with_config_file(configPath)"
     end
@@ -714,7 +714,7 @@ module VertxRedissonTest
     # @return [self]
     def syslog_facility(syslogFacility=nil)
       if syslogFacility.class == Symbol && !block_given?
-        @j_del.java_method(:syslogFacility, [Java::OrgRedissonMisc::SyslogFacilityOptions.java_class]).call(Java::OrgRedissonMisc::SyslogFacilityOptions.valueOf(syslogFacility))
+        @j_del.java_method(:syslogFacility, [Java::OrgRedissonVertxMisc::SyslogFacilityOptions.java_class]).call(Java::OrgRedissonVertxMisc::SyslogFacilityOptions.valueOf(syslogFacility))
         return self
       end
       raise ArgumentError, "Invalid arguments when calling syslog_facility(syslogFacility)"
@@ -791,38 +791,38 @@ module VertxRedissonTest
       end
       raise ArgumentError, "Invalid arguments when calling zset_max_ziplist_value(zsetMaxZiplistValue)"
     end
-    # @return [::VertxRedissonTest::RedisProcess]
+    # @return [::VertxRedisson::RedisProcess]
     def self.start_redis_server_instance
       if !block_given?
-        return ::Vertx::Util::Utils.safe_create(Java::OrgRedissonMisc::RedisRunner.java_method(:startRedisServerInstance, []).call(),::VertxRedissonTest::RedisProcess)
+        return ::Vertx::Util::Utils.safe_create(Java::OrgRedissonVertxMisc::RedisRunner.java_method(:startRedisServerInstance, []).call(),::VertxRedisson::RedisProcess)
       end
       raise ArgumentError, "Invalid arguments when calling start_redis_server_instance()"
     end
     # @return [Fixnum]
     def self.shut_down_redis_server_instance
       if !block_given?
-        return Java::OrgRedissonMisc::RedisRunner.java_method(:shutDownRedisServerInstance, []).call()
+        return Java::OrgRedissonVertxMisc::RedisRunner.java_method(:shutDownRedisServerInstance, []).call()
       end
       raise ArgumentError, "Invalid arguments when calling shut_down_redis_server_instance()"
     end
     # @return [true,false]
     def self.redis_server_instance_running?
       if !block_given?
-        return Java::OrgRedissonMisc::RedisRunner.java_method(:isRedisServerInstanceRunning, []).call()
+        return Java::OrgRedissonVertxMisc::RedisRunner.java_method(:isRedisServerInstanceRunning, []).call()
       end
       raise ArgumentError, "Invalid arguments when calling redis_server_instance_running?()"
     end
-    # @return [::VertxRedissonTest::RedisProcess]
+    # @return [::VertxRedisson::RedisProcess]
     def self.get_redis_server_instance
       if !block_given?
-        return ::Vertx::Util::Utils.safe_create(Java::OrgRedissonMisc::RedisRunner.java_method(:getRedisServerInstance, []).call(),::VertxRedissonTest::RedisProcess)
+        return ::Vertx::Util::Utils.safe_create(Java::OrgRedissonVertxMisc::RedisRunner.java_method(:getRedisServerInstance, []).call(),::VertxRedisson::RedisProcess)
       end
       raise ArgumentError, "Invalid arguments when calling get_redis_server_instance()"
     end
     # @return [String]
     def self.get_redis_server_bind_address_and_port
       if !block_given?
-        return Java::OrgRedissonMisc::RedisRunner.java_method(:getRedisServerBindAddressAndPort, []).call()
+        return Java::OrgRedissonVertxMisc::RedisRunner.java_method(:getRedisServerBindAddressAndPort, []).call()
       end
       raise ArgumentError, "Invalid arguments when calling get_redis_server_bind_address_and_port()"
     end

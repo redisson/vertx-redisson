@@ -19,12 +19,11 @@ package org.redisson.rxjava.vertx.api;
 import java.util.Map;
 import rx.Observable;
 import io.vertx.core.json.JsonArray;
-import java.util.List;
 import org.redisson.api.GeoUnit;
+import io.vertx.core.json.JsonObject;
 import org.redisson.api.GeoOrder;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import org.redisson.vertx.api.GeoEntry;
 
 /**
  *
@@ -78,11 +77,18 @@ public class RedissonGeo<V> {
    * Adds geospatial member and gives back the number of elements added to the
    * sorted set, not including elements already existing for which 
    * the score was updated.
-   * @param entry - GeoEntry object
+   * 
+   * JsonObject format: 
+   * {
+   *      longitude: double,
+   *      latitude: double,
+   *      member: Object
+   * }
+   * @param entry - JsonObject object.
    * @param handler - Handler for the result of this call.
    * @return this
    */
-  public RedissonGeo<V> addEntry(GeoEntry entry, Handler<AsyncResult<Long>> handler) { 
+  public RedissonGeo<V> addEntry(JsonObject entry, Handler<AsyncResult<Long>> handler) { 
     delegate.addEntry(entry, handler);
     return this;
   }
@@ -91,10 +97,17 @@ public class RedissonGeo<V> {
    * Adds geospatial member and gives back the number of elements added to the
    * sorted set, not including elements already existing for which 
    * the score was updated.
-   * @param entry - GeoEntry object
+   * 
+   * JsonObject format: 
+   * {
+   *      longitude: double,
+   *      latitude: double,
+   *      member: Object
+   * }
+   * @param entry - JsonObject object.
    * @return 
    */
-  public Observable<Long> addEntryObservable(GeoEntry entry) { 
+  public Observable<Long> addEntryObservable(JsonObject entry) { 
     io.vertx.rx.java.ObservableFuture<Long> handler = io.vertx.rx.java.RxHelper.observableFuture();
     addEntry(entry, handler.toHandler());
     return handler;
@@ -104,11 +117,20 @@ public class RedissonGeo<V> {
    * Adds geospatial member and gives back the number of elements added to the
    * sorted set, not including elements already existing for which 
    * the score was updated.
-   * @param entries - list of GeoEntry objects
+   * 
+   * JsonArray format: 
+   * [{
+   *      longitude: double,
+   *      latitude: double,
+   *      member: Object
+   * }, 
+   * ...
+   * ]
+   * @param entries - JsonArray object
    * @param handler - Handler for the result of this call.
    * @return this
    */
-  public RedissonGeo<V> add(List<GeoEntry> entries, Handler<AsyncResult<Long>> handler) { 
+  public RedissonGeo<V> add(JsonArray entries, Handler<AsyncResult<Long>> handler) { 
     delegate.add(entries, handler);
     return this;
   }
@@ -117,10 +139,19 @@ public class RedissonGeo<V> {
    * Adds geospatial member and gives back the number of elements added to the
    * sorted set, not including elements already existing for which 
    * the score was updated.
-   * @param entries - list of GeoEntry objects
+   * 
+   * JsonArray format: 
+   * [{
+   *      longitude: double,
+   *      latitude: double,
+   *      member: Object
+   * }, 
+   * ...
+   * ]
+   * @param entries - JsonArray object
    * @return 
    */
-  public Observable<Long> addObservable(List<GeoEntry> entries) { 
+  public Observable<Long> addObservable(JsonArray entries) { 
     io.vertx.rx.java.ObservableFuture<Long> handler = io.vertx.rx.java.RxHelper.observableFuture();
     add(entries, handler.toHandler());
     return handler;
@@ -155,6 +186,14 @@ public class RedissonGeo<V> {
   /**
    * Returns 11 characters Geohash string mapped by defined member in a form
    * of a JsonArray.
+   * 
+   * Result JsonArray format:
+   * [{
+   *    member: Object,
+   *    hash: String
+   * },
+   * ...
+   * ]
    * @param members - objects
    * @param handler - Handler for the result of this call.
    * @return this
@@ -167,6 +206,14 @@ public class RedissonGeo<V> {
   /**
    * Returns 11 characters Geohash string mapped by defined member in a form
    * of a JsonArray.
+   * 
+   * Result JsonArray format:
+   * [{
+   *    member: Object,
+   *    hash: String
+   * },
+   * ...
+   * ]
    * @param members - objects
    * @return 
    */

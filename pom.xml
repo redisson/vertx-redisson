@@ -19,8 +19,8 @@
     <url>http://redisson.org</url>
 
     <organization>
-       <name>The Redisson Project</name>
-       <url>http://redisson.org/</url>
+        <name>The Redisson Project</name>
+        <url>http://redisson.org/</url>
     </organization>
 
     <scm>
@@ -66,15 +66,6 @@
         <redisson.version>3.0.1</redisson.version>
     </properties>
     
-    <profiles>
-        <profile>
-            <id>unit-test</id>
-            <properties>
-                <maven.test.skip>false</maven.test.skip>
-            </properties>
-        </profile>
-    </profiles>
-    
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -88,6 +79,11 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.12</version>
+        </dependency>
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
@@ -171,11 +167,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
             <version>4.12</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.12</version>
         </dependency>
     </dependencies>
 
@@ -404,5 +395,31 @@
             </plugin>
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>linux</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <properties>
+                <redisBinary>/usr/local/bin/redis-server</redisBinary>
+            </properties>
+        </profile>
+        <profile>
+            <id>unit-test</id>
+            <properties>
+                <maven.test.skip>false</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>coverage</id>
+            <properties>
+                <maven.test.skip>false</maven.test.skip>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

@@ -16,7 +16,7 @@ module VertxRedisson
     #  sorted set, not including elements already existing for which 
     #  the score was updated.
     # @overload add(entries,handler)
-    #   @param [Array<Hash>] entries - list of GeoEntry objects
+    #   @param [Array<String,Object>] entries - JsonArray object
     #   @yield - Handler for the result of this call.
     # @overload add(longitude,latitude,member,handler)
     #   @param [Float] longitude - longitude of object
@@ -26,7 +26,7 @@ module VertxRedisson
     # @return [self]
     def add(param_1=nil,param_2=nil,param_3=nil)
       if param_1.class == Array && block_given? && param_2 == nil && param_3 == nil
-        @j_del.java_method(:add, [Java::JavaUtil::List.java_class,Java::IoVertxCore::Handler.java_class]).call(param_1.map { |element| Java::OrgRedissonVertxApi::GeoEntry.new(::Vertx::Util::Utils.to_json_object(element)) },(Proc.new { |ar| yield(ar.failed ? ar.cause : nil, ar.succeeded ? ar.result : nil) }))
+        @j_del.java_method(:add, [Java::IoVertxCoreJson::JsonArray.java_class,Java::IoVertxCore::Handler.java_class]).call(::Vertx::Util::Utils.to_json_array(param_1),(Proc.new { |ar| yield(ar.failed ? ar.cause : nil, ar.succeeded ? ar.result : nil) }))
         return self
       elsif param_1.class == Float && param_2.class == Float && (param_3.class == String  || param_3.class == Hash || param_3.class == Array || param_3.class == NilClass || param_3.class == TrueClass || param_3.class == FalseClass || param_3.class == Fixnum || param_3.class == Float) && block_given?
         @j_del.java_method(:add, [Java::double.java_class,Java::double.java_class,Java::java.lang.Object.java_class,Java::IoVertxCore::Handler.java_class]).call(::Vertx::Util::Utils.to_double(param_1),::Vertx::Util::Utils.to_double(param_2),::Vertx::Util::Utils.to_object(param_3),(Proc.new { |ar| yield(ar.failed ? ar.cause : nil, ar.succeeded ? ar.result : nil) }))
@@ -37,12 +37,19 @@ module VertxRedisson
     #  Adds geospatial member and gives back the number of elements added to the
     #  sorted set, not including elements already existing for which 
     #  the score was updated.
-    # @param [Hash] entry - GeoEntry object
+    #  
+    #  JsonObject format: 
+    #  {
+    #       longitude: double,
+    #       latitude: double,
+    #       member: Object
+    #  }
+    # @param [Hash{String => Object}] entry - JsonObject object.
     # @yield - Handler for the result of this call.
     # @return [self]
     def add_entry(entry=nil)
       if entry.class == Hash && block_given?
-        @j_del.java_method(:addEntry, [Java::OrgRedissonVertxApi::GeoEntry.java_class,Java::IoVertxCore::Handler.java_class]).call(Java::OrgRedissonVertxApi::GeoEntry.new(::Vertx::Util::Utils.to_json_object(entry)),(Proc.new { |ar| yield(ar.failed ? ar.cause : nil, ar.succeeded ? ar.result : nil) }))
+        @j_del.java_method(:addEntry, [Java::IoVertxCoreJson::JsonObject.java_class,Java::IoVertxCore::Handler.java_class]).call(::Vertx::Util::Utils.to_json_object(entry),(Proc.new { |ar| yield(ar.failed ? ar.cause : nil, ar.succeeded ? ar.result : nil) }))
         return self
       end
       raise ArgumentError, "Invalid arguments when calling add_entry(entry)"
@@ -62,6 +69,14 @@ module VertxRedisson
     end
     #  Returns 11 characters Geohash string mapped by defined member in a form
     #  of a JsonArray.
+    #  
+    #  Result JsonArray format:
+    #  [{
+    #     member: Object,
+    #     hash: String
+    #  },
+    #  ...
+    #  ]
     # @param [Array<String,Object>] members - objects
     # @yield - Handler for the result of this call.
     # @return [self]

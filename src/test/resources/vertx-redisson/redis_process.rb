@@ -1,14 +1,14 @@
 require 'vertx/util/utils.rb'
-# Generated from org.redisson.misc.RedisProcess
-module VertxRedissonTest
+# Generated from org.redisson.vertx.misc.RedisProcess
+module VertxRedisson
   class RedisProcess
     # @private
-    # @param j_del [::VertxRedissonTest::RedisProcess] the java delegate
+    # @param j_del [::VertxRedisson::RedisProcess] the java delegate
     def initialize(j_del)
       @j_del = j_del
     end
     # @private
-    # @return [::VertxRedissonTest::RedisProcess] the underlying java delegate
+    # @return [::VertxRedisson::RedisProcess] the underlying java delegate
     def j_del
       @j_del
     end

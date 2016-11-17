@@ -21,8 +21,12 @@ import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import java.util.List;
+import java.util.Map;
+import org.redisson.api.GeoEntry;
 import org.redisson.api.GeoOrder;
+import org.redisson.api.GeoPosition;
 import org.redisson.api.GeoUnit;
 import org.redisson.api.RGeoAsync;
 import org.redisson.vertx.impl.RedissonGeoImpl;
@@ -63,20 +67,59 @@ public interface RedissonGeo<V> {
      * @param handler - Handler for the result of this call.
      * @return this
      */
-    @Fluent
+    @GenIgnore
     RedissonGeo<V> addEntry(GeoEntry entry, Handler<AsyncResult<Long>> handler);
+    
+    /**
+     * Adds geospatial member and gives back the number of elements added to the
+     * sorted set, not including elements already existing for which 
+     * the score was updated.
+     * 
+     * JsonObject format: 
+     * {
+     *      longitude: double,
+     *      latitude: double,
+     *      member: Object
+     * }
+     * 
+     * @param entry - JsonObject object.  
+     * @param handler - Handler for the result of this call.
+     * @return this
+     */
+    @Fluent
+    RedissonGeo<V> addEntry(JsonObject entry, Handler<AsyncResult<Long>> handler);
 
     /**
      * Adds geospatial member and gives back the number of elements added to the
      * sorted set, not including elements already existing for which 
      * the score was updated.
      * 
-     * @param entries - list of GeoEntry objects
+     * @param entries - JsonArray object
+     * @param handler - Handler for the result of this call.
+     * @return this
+     */
+    @GenIgnore
+    RedissonGeo<V> add(List<GeoEntry> entries, Handler<AsyncResult<Long>> handler);
+    
+    /**
+     * Adds geospatial member and gives back the number of elements added to the
+     * sorted set, not including elements already existing for which 
+     * the score was updated.
+     * 
+     * JsonArray format: 
+     * [{
+     *      longitude: double,
+     *      latitude: double,
+     *      member: Object
+     * }, 
+     * ...
+     * ]
+     * @param entries - JsonArray object
      * @param handler - Handler for the result of this call.
      * @return this
      */
     @Fluent
-    RedissonGeo<V> add(List<GeoEntry> entries, Handler<AsyncResult<Long>> handler);
+    RedissonGeo<V> add(JsonArray entries, Handler<AsyncResult<Long>> handler);
     
     /**
      * Returns distance between members in <code>GeoUnit</code> units.
@@ -92,7 +135,26 @@ public interface RedissonGeo<V> {
     
     /**
      * Returns 11 characters Geohash string mapped by defined member in a form
+     * of a Map.
+     * 
+     * @param members - objects
+     * @param handler - Handler for the result of this call.
+     * @return this
+     */
+    @GenIgnore
+    RedissonGeo<V> hash(List<V> members, Handler<AsyncResult<Map<V, String>>> handler);
+    
+    /**
+     * Returns 11 characters Geohash string mapped by defined member in a form
      * of a JsonArray.
+     * 
+     * Result JsonArray format:
+     * [{
+     *    member: Object,
+     *    hash: String
+     * },
+     * ...
+     * ]
      * 
      * @param members - objects
      * @param handler - Handler for the result of this call.
@@ -101,6 +163,16 @@ public interface RedissonGeo<V> {
     @Fluent
     RedissonGeo<V> hash(JsonArray members, Handler<AsyncResult<JsonArray>> handler);
 
+    /**
+     * Returns geo-position mapped by defined member in a form of a Map.
+     * 
+     * @param members - objects
+     * @param handler - Handler for the result of this call.
+     * @return this
+     */
+    @GenIgnore
+    RedissonGeo<V> pos(List<V> members, Handler<AsyncResult<Map<V, GeoPosition>>> handler);
+    
     /**
      * Returns geo-position mapped by defined member in a form of a JsonArray.
      * 

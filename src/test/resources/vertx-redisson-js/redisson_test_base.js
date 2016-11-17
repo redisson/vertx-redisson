@@ -24,15 +24,17 @@ var RedisVersion = org.redisson.misc.RedisVersion;
 var RedissonTestSuit = function (name) {
     var suite = TestSuite.create(name || "redisson_base_test");
     var requiredRedisVersion = "2.8.0";
-    var tests = {};
+    var tests = [];
     var counter = 0;
     var restartRedis = false;
     var restartRedisson = false;
     var redisVer;
+    var defaultTestTimeout = 10000;
     var sharedRedisson;
     var startDefaultRedis = function () {
         RedisRunner.startRedisServerInstance();
-        redisVer = redisVer || RedisRunner.getRedisServerInstance().getRedisVersion();
+        redisVer = redisVer
+                || RedisRunner.getRedisServerInstance().getRedisVersion();
     };
     var stopDefaultRedis = function () {
         RedisRunner.shutDownRedisServerInstance();
@@ -59,22 +61,59 @@ var RedissonTestSuit = function (name) {
     };
     return {
         test: function () {
-            var args = arguments, name, version, fn;
+            var args = arguments, name, version, fn, timeout;
             if (args.length === 1 && typeof args[0] === "function") {
                 name = "test_" + counter;
                 version = requiredRedisVersion;
                 fn = args[0];
-            } else if (args.length === 2 && typeof args[0] === "string" && typeof args[1] === "function") {
+                timeout = defaultTestTimeout;
+            } else if (args.length === 2
+                    && typeof args[0] === "string"
+                    && typeof args[1] === "function") {
                 name = args[0];
                 version = requiredRedisVersion;
                 fn = args[1];
-            } else if (args.length === 3 && typeof args[0] === "string" && typeof args[1] === "string" && typeof args[2] === "function") {
+                timeout = defaultTestTimeout;
+            } else if (args.length === 2
+                    && typeof args[0] === "funciton"
+                    && typeof args[1] === "number") {
+                name = "test_" + counter;
+                version = requiredRedisVersion;
+                fn = args[0];
+                timeout = args[1];
+            } else if (args.length === 3
+                    && typeof args[0] === "string"
+                    && typeof args[1] === "string"
+                    && typeof args[2] === "function") {
                 name = args[0];
                 version = args[1];
                 fn = args[2];
+                timeout = defaultTestTimeout;
+            } else if (args.length === 3
+                    && typeof args[0] === "string"
+                    && typeof args[1] === "function"
+                    && typeof args[2] === "number") {
+                name = args[0];
+                version = requiredRedisVersion;
+                fn = args[1];
+                timeout = args[2];
+            } else if (args.length === 4
+                    && typeof args[0] === "string"
+                    && typeof args[1] === "string"
+                    && typeof args[2] === "function"
+                    && typeof args[3] === "number") {
+                name = args[0];
+                version = args[1];
+                fn = args[2];
+                timeout = args[3];
             } else
                 throw new TypeError("function invoked with invalid arguments");
-            tests[name] = {"version": version, "fn": fn};
+            tests[counter] = {
+                "name": name,
+                "version": version,
+                "fn": fn,
+                "timeout": timeout
+            };
             counter++;
             return this;
         },
@@ -92,25 +131,32 @@ var RedissonTestSuit = function (name) {
             var me = this;
             suite.before(function (context) {
                 if (!restartRedis) {
+                    console.log("Start Shared Redis");
                     startDefaultRedis.call(me, context);
                 }
                 if (!restartRedisson) {
+                    console.log("Start Shared Redisson");
                     sharedRedisson = startRedisson.call(me, context);
                 }
             }).beforeEach(function (context) {
                 if (restartRedis) {
+                    console.log("Start Dedicated Redis");
                     startDefaultRedis.call(me, context);
                 }
                 if (restartRedisson) {
+                    console.log("Start Dedicated Redisson");
                     context.put("redisson", startRedisson.call(me, context));
                 }
             }).afterEach(function (context) {
                 if (restartRedis) {
+                    console.log("Stop Dedicated Redis");
                     stopDefaultRedis.call(me, context);
                 }
                 if (restartRedisson) {
+                    console.log("Stop Dedicated Redis");
                     stopRedisson.call(me, context, context.get("redisson"));
                 } else {
+                    console.log("Flush Shared Redison");
                     var async = context.async();
                     sharedRedisson.getKeys().flushdb(function () {
                         async.complete();
@@ -119,19 +165,36 @@ var RedissonTestSuit = function (name) {
                 }
             }).after(function (context) {
                 if (!restartRedis) {
+                    console.log("Stop Shared Redis");
                     stopDefaultRedis.call(me, context);
                 }
                 if (!restartRedisson) {
+                    console.log("Stop Shared Redisson");
                     stopRedisson.call(me, context, sharedRedisson);
                 }
             });
-            for (var t in tests) {
+            tests[counter] = {
+                name: "Finish Test Workaround",
+                version: requiredRedisVersion,
+                fn: function (context, redisson, async) {
+                    async.complete();
+                },
+                timeout: defaultTestTimeout
+            };
+            for (var t = 0; t < tests.length; t++) {
                 var test = tests[t];
-                suite.test(t, function (context) {
+                suite.test(test.name, function (context) {
                     if (RedisVersion.compareTo(redisVer, test.version) < 0) {
-                        context.fail("Required Redis version is [" + test.version + "] while detected Redis version is only [" + redisVer + "]");
+                        context.fail("Required Redis version is ["
+                                + test.version
+                                + "] while detected Redis version is only ["
+                                + redisVer + "]");
                     }
-                    test.fn(context, restartRedisson ? context.get("redisson") : sharedRedisson);
+                    var async = context.async();
+                    test.fn(context
+                    , restartRedisson ? context.get("redisson") : sharedRedisson
+                    , async);
+                    async.awaitSuccess();
                 });
             }
             suite.run({

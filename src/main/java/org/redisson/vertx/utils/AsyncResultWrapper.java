@@ -19,7 +19,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import java.util.function.Function;
 import org.redisson.api.RFuture;
-import static org.redisson.vertx.utils.AsyncResultTransformers.noTransform;
+import static org.redisson.vertx.utils.ObjectTransformers.noTransform;
 
 /**
  *
