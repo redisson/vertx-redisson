@@ -4,6 +4,7 @@ nbactions-unit-test.xml
 nbactions-coverage.xml
 nb-configuration.xml
 target
+.vertx
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 

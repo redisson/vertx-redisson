@@ -127,6 +127,38 @@ var RedissonTestSuit = function (name) {
         forEachRestartRedisson: function (restart) {
             restartRedisson = restartRedis || restart;
         },
+        withTests: function () {
+            var args = arguments, name, tests;
+            if (args.length === 1
+                    && typeof args[0] === "object") {
+                name = undefined;
+                tests = args[0];
+            } else if (args.length === 2
+                    && typeof args[0] === "string"
+                    && typeof args[1] === "object") {
+                name = args[0];
+                tests = args[1];
+            } else
+                throw new TypeError("function invoked with invalid arguments");
+            if (tests._requireVersion) {
+                this.requireVersion(tests._requireVersion);
+                delete tests._requireVersion;
+            } else {
+                this.requireVersion(requiredRedisVersion);
+            }
+            for (var t in tests) {
+                var ts = tests[t], n = "[" + name + " :: " + t + "]";
+                if (typeof ts === "function") {
+                    this.test(n, ts);
+                } else {
+                    var args = [n];//name
+                    ts.version && args.push(ts.version);//version
+                    args.push(ts.fn);//let test method fail fn when undefined.
+                    ts.timeout && args.push(ts.timeout);//timeout
+                    this.test.apply(this, args);
+                }
+            }
+        },
         run: function () {
             var me = this;
             suite.before(function (context) {
@@ -192,8 +224,10 @@ var RedissonTestSuit = function (name) {
                     }
                     var async = context.async();
                     test.fn(context
-                    , restartRedisson ? context.get("redisson") : sharedRedisson
-                    , async);
+                            , restartRedisson
+                            ? context.get("redisson")
+                            : sharedRedisson
+                            , async);
                     async.awaitSuccess();
                 });
             }

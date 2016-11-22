@@ -13,90 +13,98 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
-var TestSuite = require('vertx-redisson-js/redisson_test_base');
-var suite = TestSuite.create("redisson_geo_test");
-suite.requireVersion("3.1.0");
-suite.test("add", function (context, redisson, async) {
-    redisson.getGeo("test").add(13.361389, 38.115556, "Sicily", function (r) {
-        context.assertEquals(1, r);
-        async.complete();
-    });
-}).test("addEntry", function (context, redisson, async) {
-    redisson.getGeo("test").addEntry(
-            {"longitude": 3.11, "latitude": 9.10321, "member": "city1"}, function (r) {
-        context.assertEquals(1, r);
-        async.complete();
-    });
-}).test("addList", function (context, redisson, async) {
-    redisson.getGeo("test").add([
-        {"longitude": 3.11, "latitude": 9.10321, "member": "city1"},
-        {"longitude": 81.1231, "latitude": 38.65478, "member": "city2"}
-    ], function (r) {
-        context.assertEquals(2, r);
-        async.complete();
-    });
-}).test("dist", function (context, redisson, async) {
-    var geo = redisson.getGeo("test");
-    geo.add([
-        {"longitude": 13.361389, "latitude": 38.115556, "member": "Palermo"},
-        {"longitude": 15.087269, "latitude": 37.502669, "member": "Catania"}
-    ], function (r) {
-        geo.dist("Palermo", "Catania", "METERS", function (s) {
-            context.assertEquals(166274.1516, s);
-            async.complete();
-        });
-    });
-}).test("distEmpty", function (context, redisson, async) {
-    redisson.getGeo("test").dist("Palermo", "Catania", "METERS", function (r) {
-        context.assertNull(r);
-        async.complete();
-    });
-}).test("hash", function (context, redisson, async) {
-    var geo = redisson.getGeo("test");
-    var expected = {};
-    expected["Palermo"] = "sqc8b49rny0";
-    expected["Catania"] = "sqdtr74hyu0";
-    geo.add([
-        {"longitude": 13.361389, "latitude": 38.115556, "member": "Palermo"},
-        {"longitude": 15.087269, "latitude": 37.502669, "member": "Catania"}
-    ], function (r) {
-        geo.hash(["Palermo", "Catania"], function (s) {
-            context.assertEquals("Palermo", s[0]["member"]);
-            context.assertEquals(expected["Palermo"], s[0]["hash"]);
-            context.assertEquals("Catania", s[1]["member"]);
-            context.assertEquals(expected["Catania"], s[1]["hash"]);
-            async.complete();
-        });
-    });
-}).test("hashEmpty", function (context, redisson, async) {
-    redisson.getGeo("test").hash(["Palermo", "Catania"], function (r) {
-        context.assertEquals(0, r.length);
-        async.complete();
-    });
-}).test("pos", function (context, redisson, async) {
-    var geo = redisson.getGeo("test");
-    var palermo = {
-        "longitude": 13.361389338970184,
-        "latitude": 38.115556395496299,
-        "member": "Palermo"
-    },
-    catania = {
-        "longitude": 15.087267458438873,
-        "latitude": 37.50266842333162,
-        "member": "Catania"
-    };
-    geo.add([palermo, catania], function (r) {
-        geo.pos(["test2", "Palermo", "test3", "Catania", "test1"], function (s) {
-            context.assertEquals(palermo.member, s[0].member);
-            context.assertEquals(palermo.longitude, s[0].longitude);
-            context.assertEquals(palermo.latitude, s[0].latitude);
-            context.assertEquals(catania.member, s[1].member);
-            context.assertTrue(catania.longitude, s[1].longitude);
-            context.assertTrue(catania.latitude, s[1].latitude);
-            async.complete();
-        });
-    });
-});
+/* global module */
 
-suite.run();
+'use strict';
+var RedissonGeoTest = {
+    "_requireVersion": "3.1.0",
+    "add": function (context, redisson, async) {
+        redisson.getGeo("test").add(13.361389, 38.115556, "Sicily", function (r) {
+            context.assertEquals(1, r);
+            async.complete();
+        })
+    },
+    "addEntry": function (context, redisson, async) {
+        redisson.getGeo("test").addEntry(
+                {"longitude": 3.11, "latitude": 9.10321, "member": "city1"}, function (r) {
+            context.assertEquals(1, r);
+            async.complete();
+        });
+    },
+    "addList": function (context, redisson, async) {
+        redisson.getGeo("test").add([
+            {"longitude": 3.11, "latitude": 9.10321, "member": "city1"},
+            {"longitude": 81.1231, "latitude": 38.65478, "member": "city2"}
+        ], function (r) {
+            context.assertEquals(2, r);
+            async.complete();
+        });
+    },
+    "dist": function (context, redisson, async) {
+        var geo = redisson.getGeo("test");
+        geo.add([
+            {"longitude": 13.361389, "latitude": 38.115556, "member": "Palermo"},
+            {"longitude": 15.087269, "latitude": 37.502669, "member": "Catania"}
+        ], function (r) {
+            geo.dist("Palermo", "Catania", "METERS", function (s) {
+                context.assertEquals(166274.1516, s);
+                async.complete();
+            });
+        });
+    },
+    "distEmpty": function (context, redisson, async) {
+        redisson.getGeo("test").dist("Palermo", "Catania", "METERS", function (r) {
+            context.assertNull(r);
+            async.complete();
+        });
+    },
+    "hash": function (context, redisson, async) {
+        var geo = redisson.getGeo("test");
+        var expected = {};
+        expected["Palermo"] = "sqc8b49rny0";
+        expected["Catania"] = "sqdtr74hyu0";
+        geo.add([
+            {"longitude": 13.361389, "latitude": 38.115556, "member": "Palermo"},
+            {"longitude": 15.087269, "latitude": 37.502669, "member": "Catania"}
+        ], function (r) {
+            geo.hash(["Palermo", "Catania"], function (s) {
+                context.assertEquals("Palermo", s[0]["member"]);
+                context.assertEquals(expected["Palermo"], s[0]["hash"]);
+                context.assertEquals("Catania", s[1]["member"]);
+                context.assertEquals(expected["Catania"], s[1]["hash"]);
+                async.complete();
+            });
+        });
+    },
+    "hashEmpty": function (context, redisson, async) {
+        redisson.getGeo("test").hash(["Palermo", "Catania"], function (r) {
+            context.assertEquals(0, r.length);
+            async.complete();
+        });
+    },
+    "pos": function (context, redisson, async) {
+        var geo = redisson.getGeo("test");
+        var palermo = {
+            "longitude": 13.361389338970184,
+            "latitude": 38.115556395496299,
+            "member": "Palermo"
+        },
+        catania = {
+            "longitude": 15.087267458438873,
+            "latitude": 37.50266842333162,
+            "member": "Catania"
+        };
+        geo.add([palermo, catania], function (r) {
+            geo.pos(["test2", "Palermo", "test3", "Catania", "test1"], function (s) {
+                context.assertEquals(palermo.member, s[0].member);
+                context.assertEquals(palermo.longitude, s[0].longitude);
+                context.assertEquals(palermo.latitude, s[0].latitude);
+                context.assertEquals(catania.member, s[1].member);
+                context.assertTrue(catania.longitude, s[1].longitude);
+                context.assertTrue(catania.latitude, s[1].latitude);
+                async.complete();
+            });
+        });
+    }
+};
+module.exports = RedissonGeoTest;

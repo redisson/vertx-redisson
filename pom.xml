@@ -61,9 +61,10 @@
     </developers>
 
     <properties>
+        <redisBinary>C:\\Devel\\projects\\redis\\Redis-x64-3.2.100\\redis-server.exe</redisBinary>
         <maven.test.skip>true</maven.test.skip>
         <vertx.version>3.3.3</vertx.version>
-        <redisson.version>3.0.1</redisson.version>
+        <redisson.version>3.1.0</redisson.version>
     </properties>
     
     <dependencyManagement>
@@ -92,6 +93,7 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
@@ -101,16 +103,19 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-lang-groovy</artifactId>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-lang-ruby</artifactId>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-lang-js</artifactId>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <!--        <dependency>
@@ -144,6 +149,7 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-rx-java</artifactId>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -284,7 +290,6 @@
                                 <arg>-AoutputDirectory=${project.basedir}/src/main</arg>
                                 <!-- $lang is replaced by the docgen processor to the target lang -->
                                 <arg>-Adocgen.output=${asciidoc.dir}/$lang</arg>
-
                                 <arg>-Amaven.groupId=${project.groupId}</arg>
                                 <arg>-Amaven.artifactId=${project.artifactId}</arg>
                                 <arg>-Amaven.version=${project.version}</arg>
@@ -327,6 +332,35 @@
                         </property>
                     </properties>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.5.0</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>test-js</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>test</phase>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-DredisBinary=${redisBinary}</argument>
+                                <argument>-Dvertx.options.maxEventLoopExecuteTime=10000000000</argument>
+                                <argument>-classpath</argument>
+                                <classpath/>
+                                <argument>io.vertx.core.Launcher</argument>
+                                <argument>test</argument>
+                                <argument>target/test-classes/vertx-redisson-js/redisson_test_runner.js</argument>
+                            </arguments>
+                            <classpathScope>test</classpathScope>
+                            <skip>${maven.test.skip}</skip>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>com.mycila</groupId>
@@ -403,6 +437,25 @@
                 <os>
                     <family>unix</family>
                 </os>
+                <property>
+                    <name>maven.test.skip</name>
+                    <value>false</value>
+                </property>
+            </activation>
+            <properties>
+                <redisBinary>/usr/local/bin/redis-server</redisBinary>
+            </properties>
+        </profile>
+        <profile>
+            <id>mac</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+                <property>
+                    <name>maven.test.skip</name>
+                    <value>false</value>
+                </property>
             </activation>
             <properties>
                 <redisBinary>/usr/local/bin/redis-server</redisBinary>
