@@ -16,12 +16,14 @@
 /* global org, vertx, module */
 
 'use strict';
+var Vertx = require('vertx-js/vertx');
 var TestSuite = require("vertx-unit-js/test_suite");
 var Redisson = require("vertx-redisson-js/redisson");
 var RedisRunner = require("vertx-redisson-test-js/redis_runner");
 var RedisVersion = org.redisson.misc.RedisVersion;
 
 var RedissonTestSuit = function (name) {
+    var vertx = Vertx.vertx();
     var suite = TestSuite.create(name || "redisson_base_test");
     var requiredRedisVersion = "2.8.0";
     var tests = [];
@@ -231,10 +233,14 @@ var RedissonTestSuit = function (name) {
                     async.awaitSuccess();
                 });
             }
-            suite.run({
+            suite.run(vertx, {
                 "reporters": [
                     {
                         "to": "console"
+                    },
+                    {
+                        "to": "file:target/surefire-reports/",
+                        "format": "junit"
                     }
                 ]
             });

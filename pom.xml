@@ -337,7 +337,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.5.0</version>
-                <extensions>true</extensions>
                 <executions>
                     <execution>
                         <id>test-js</id>
@@ -436,6 +435,7 @@
             <activation>
                 <os>
                     <family>unix</family>
+                    <name>Linux</name>
                 </os>
                 <property>
                     <name>maven.test.skip</name>

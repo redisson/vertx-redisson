@@ -35,28 +35,51 @@ public class RedissonTestBase extends VertxTestBase {
         return "2.8.0";
     }
 
+    protected boolean restartRedis() {
+        return false;
+    }
+    
+    protected boolean restartRedisson() {
+        return false;
+    }
+    
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        RedisRunner.startRedisServerInstance();
-        Assume.assumeTrue(RedisVersion.compareTo(RedisRunner.getRedisServerInstance().getRedisVersion(), requiredRedisVersion()) > 0);
-        redisson = createInstance();
+        if (!RedisRunner.isRedisServerInstanceRunning()) {
+            RedisRunner.startRedisServerInstance();
+            Assume.assumeTrue(RedisVersion.compareTo(RedisRunner.getRedisServerInstance().getRedisVersion(), requiredRedisVersion()) > 0);
+        }
+        if (redisson == null) {
+            redisson = createInstance();
+        }
     }
 
     @Override
     public void tearDown() throws Exception {
-        try {
-            RedisRunner.shutDownRedisServerInstance();
-        } catch (Exception ex) {
-            fail(ex);
+        if (restartRedis()) {
+            try {
+                RedisRunner.shutDownRedisServerInstance();
+            } catch (Exception ex) {
+                fail(ex);
+            }
         }
-        final CountDownLatch l = new CountDownLatch(1);
-        if (redisson != null) {
-            redisson.shutdown(done -> {
+        if (restartRedisson()) {
+            final CountDownLatch l = new CountDownLatch(1);
+            if (redisson != null) {
+                redisson.shutdown(done -> {
+                    l.countDown();
+                });
+            }
+            l.await();
+            redisson = null;
+        } else {
+            final CountDownLatch l = new CountDownLatch(1);
+            redisson.getKeys().flushdb(r -> {
                 l.countDown();
             });
+            l.await();
         }
-        l.await();
         final CountDownLatch ll = new CountDownLatch(1);
         vertx.close(c -> {
             try {
