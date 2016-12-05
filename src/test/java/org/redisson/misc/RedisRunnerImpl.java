@@ -15,14 +15,11 @@
  */
 package org.redisson.misc;
 
-import io.vertx.codegen.annotations.Fluent;
 import io.vertx.codegen.annotations.GenIgnore;
-import io.vertx.codegen.annotations.VertxGen;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -32,8 +29,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.redisson.client.RedisClient;
 import org.redisson.client.RedisConnection;
@@ -57,6 +52,7 @@ public class RedisRunnerImpl implements RedisRunner {
     private int port = 6379;
     private int retryCount = Integer.MAX_VALUE;
     private boolean randomPort = false;
+    private RedisLogger logger = new RedisLoggerStdOutImpl();
 
     {
         this.options.put(RedisOptions.BINARY_PATH, RedissonRuntimeEnvironment.redisBinaryPath);
@@ -88,7 +84,7 @@ public class RedisRunnerImpl implements RedisRunner {
             List<String> launchOptions = Arrays.stream(options)
                     .map(x -> Arrays.asList(x.split(" "))).flatMap(x -> x.stream())
                     .collect(Collectors.toList());
-            System.out.println("REDIS LAUNCH OPTIONS: " + Arrays.toString(launchOptions.toArray()));
+            logger.log("REDIS LAUNCH OPTIONS: " + Arrays.toString(launchOptions.toArray()));
             ProcessBuilder master = new ProcessBuilder(launchOptions)
                     .redirectErrorStream(true)
                     .directory(new File(RedissonRuntimeEnvironment.tempDir));
@@ -98,10 +94,10 @@ public class RedisRunnerImpl implements RedisRunner {
                 String line;
                 try {
                     while (p.isAlive() && (line = reader.readLine()) != null && !RedissonRuntimeEnvironment.isTravis) {
-                        System.out.println("REDIS PROCESS: " + line);
+                        logger.log("REDIS PROCESS: " + line);
                     }
                 } catch (IOException ex) {
-                    System.out.println("Exception: " + ex.getLocalizedMessage());
+                    logger.log("Exception: " + ex.getLocalizedMessage());
                 }
             }).start();
             Thread.sleep(1500);
@@ -159,7 +155,19 @@ public class RedisRunnerImpl implements RedisRunner {
     private String convertBoolean(boolean b) {
         return b ? "yes" : "no";
     }
-
+    
+    @Override
+    public RedisRunnerImpl redisBinary(String redisBinary) {
+        this.options.put(RedisOptions.BINARY_PATH, redisBinary);
+        return this;
+    }
+    
+    @Override
+    public RedisRunnerImpl logger(RedisLogger logger) {
+        this.logger = logger;
+        return this;
+    }
+    
     @Override
     public RedisRunnerImpl daemonize(boolean daemonize) {
         addConfigOption(RedisOptions.DAEMONIZE, convertBoolean(daemonize));
@@ -683,7 +691,7 @@ public class RedisRunnerImpl implements RedisRunner {
     public boolean deleteDBfileDir() {
         File f = new File(defaultDir);
         if (f.exists()) {
-            System.out.println("REDIS RUNNER: Deleting directory " + defaultDir);
+            logger.log("REDIS RUNNER: Deleting directory " + defaultDir);
             return f.delete();
         }
         return false;
@@ -694,7 +702,7 @@ public class RedisRunnerImpl implements RedisRunner {
         if (f.exists()) {
             makeRandomDefaultDir();
         } else {
-            System.out.println("REDIS RUNNER: Making directory " + f.getAbsolutePath());
+            logger.log("REDIS RUNNER: Making directory " + f.getAbsolutePath());
             f.mkdirs();
             this.defaultDir = f.getAbsolutePath();
         }

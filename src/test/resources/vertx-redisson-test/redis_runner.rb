@@ -1,4 +1,5 @@
 require 'vertx-redisson-test/redis_process'
+require 'vertx-redisson-test/redis_logger'
 require 'vertx/util/utils.rb'
 # Generated from org.redisson.misc.RedisRunner
 module VertxRedissonTest
@@ -19,6 +20,24 @@ module VertxRedissonTest
         return ::Vertx::Util::Utils.safe_create(Java::OrgRedissonMisc::RedisRunner.java_method(:newInstance, []).call(),::VertxRedissonTest::RedisRunner)
       end
       raise ArgumentError, "Invalid arguments when calling new_instance()"
+    end
+    # @param [String] redisBinary 
+    # @return [self]
+    def redis_binary(redisBinary=nil)
+      if redisBinary.class == String && !block_given?
+        @j_del.java_method(:redisBinary, [Java::java.lang.String.java_class]).call(redisBinary)
+        return self
+      end
+      raise ArgumentError, "Invalid arguments when calling redis_binary(redisBinary)"
+    end
+    # @param [::VertxRedissonTest::RedisLogger] logger 
+    # @return [self]
+    def logger(logger=nil)
+      if logger.class.method_defined?(:j_del) && !block_given?
+        @j_del.java_method(:logger, [Java::OrgRedissonMisc::RedisLogger.java_class]).call(logger.j_del)
+        return self
+      end
+      raise ArgumentError, "Invalid arguments when calling logger(logger)"
     end
     # @param [true,false] activerehashing 
     # @return [self]

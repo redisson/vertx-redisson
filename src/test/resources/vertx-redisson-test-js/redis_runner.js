@@ -17,6 +17,7 @@
 /** @module vertx-redisson-test-js/redis_runner */
 var utils = require('vertx-js/util/utils');
 var RedisProcess = require('vertx-redisson-test-js/redis_process');
+var RedisLogger = require('vertx-redisson-test-js/redis_logger');
 
 var io = Packages.io;
 var JsonObject = io.vertx.core.json.JsonObject;
@@ -30,6 +31,34 @@ var RedisRunner = function(j_val) {
 
   var j_redisRunner = j_val;
   var that = this;
+
+  /**
+
+   @public
+   @param redisBinary {string} 
+   @return {RedisRunner}
+   */
+  this.redisBinary = function(redisBinary) {
+    var __args = arguments;
+    if (__args.length === 1 && typeof __args[0] === 'string') {
+      j_redisRunner["redisBinary(java.lang.String)"](redisBinary);
+      return that;
+    } else throw new TypeError('function invoked with invalid arguments');
+  };
+
+  /**
+
+   @public
+   @param logger {RedisLogger} 
+   @return {RedisRunner}
+   */
+  this.logger = function(logger) {
+    var __args = arguments;
+    if (__args.length === 1 && typeof __args[0] === 'object' && __args[0]._jdel) {
+      j_redisRunner["logger(org.redisson.misc.RedisLogger)"](logger._jdel);
+      return that;
+    } else throw new TypeError('function invoked with invalid arguments');
+  };
 
   /**
 

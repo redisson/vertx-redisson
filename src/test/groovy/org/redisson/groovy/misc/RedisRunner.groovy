@@ -39,6 +39,14 @@ public class RedisRunner {
     def ret = InternalHelper.safeCreate(org.redisson.misc.RedisRunner.newInstance(), org.redisson.groovy.misc.RedisRunner.class);
     return ret;
   }
+  public RedisRunner redisBinary(String redisBinary) {
+    delegate.redisBinary(redisBinary);
+    return this;
+  }
+  public RedisRunner logger(RedisLogger logger) {
+    delegate.logger(logger != null ? (org.redisson.misc.RedisLogger)logger.getDelegate() : null);
+    return this;
+  }
   public RedisRunner activerehashing(boolean activerehashing) {
     delegate.activerehashing(activerehashing);
     return this;

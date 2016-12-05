@@ -34,6 +34,12 @@ public interface RedisRunner {
     }
     
     @Fluent
+    RedisRunner redisBinary(String redisBinary);
+    
+    @Fluent
+    RedisRunner logger(RedisLogger logger);
+    
+    @Fluent
     RedisRunner activerehashing(boolean activerehashing);
 
     @Fluent
