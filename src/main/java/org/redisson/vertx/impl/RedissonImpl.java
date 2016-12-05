@@ -41,7 +41,6 @@ public class RedissonImpl implements Redisson {
         this.vertx = vertx;
         try {
             org.redisson.config.Config c = org.redisson.config.Config.fromJSON(config.toString());
-//            c.setEventLoopGroup(vertx.nettyEventLoopGroup());
             redisson = org.redisson.Redisson.create(c);
         } catch (IOException ex) {
             throw new IllegalArgumentException(ex);
