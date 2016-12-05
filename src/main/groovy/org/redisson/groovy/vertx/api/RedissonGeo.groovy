@@ -54,12 +54,14 @@ public class RedissonGeo<V> {
    * sorted set, not including elements already existing for which 
    * the score was updated.
    * 
-   * JsonObject format: 
+   * Required JsonObject format: 
+   * <pre><code>
    * {
    *      longitude: double,
    *      latitude: double,
    *      member: Object
    * }
+   * </code></pre>
    * @param entry - JsonObject object.
    * @param handler - Handler for the result of this call.
    * @return this
@@ -73,7 +75,8 @@ public class RedissonGeo<V> {
    * sorted set, not including elements already existing for which 
    * the score was updated.
    * 
-   * JsonArray format: 
+   * Required JsonArray format: 
+   * <pre><code>
    * [{
    *      longitude: double,
    *      latitude: double,
@@ -81,6 +84,7 @@ public class RedissonGeo<V> {
    * }, 
    * ...
    * ]
+   * </code></pre>
    * @param entries - JsonArray object
    * @param handler - Handler for the result of this call.
    * @return this
@@ -106,12 +110,14 @@ public class RedissonGeo<V> {
    * of a JsonArray.
    * 
    * Result JsonArray format:
+   * <pre><code>
    * [{
    *    member: Object,
    *    hash: String
    * },
    * ...
    * ]
+   * </code></pre>
    * @param members - objects
    * @param handler - Handler for the result of this call.
    * @return this
@@ -130,6 +136,19 @@ public class RedissonGeo<V> {
   }
   /**
    * Returns geo-position mapped by defined member in a form of a JsonArray.
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    geoPosition: {
+   *        longitude: double,
+   *        latitude: double
+   *    }
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param members - objects
    * @param handler - Handler for the result of this call.
    * @return this
@@ -151,6 +170,11 @@ public class RedissonGeo<V> {
    * within the borders of the area specified with the center location 
    * and the maximum distance from the center (the radius) 
    * in <code>GeoUnit</code> units.
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [ object1, object2, ... ]
+   * </code></pre>
    * @param longitude - longitude of object
    * @param latitude - latitude of object
    * @param radius - radius in geo units
@@ -175,6 +199,11 @@ public class RedissonGeo<V> {
    * within the borders of the area specified with the center location 
    * and the maximum distance from the center (the radius) 
    * in <code>GeoUnit</code> units and limited by count
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [ object1, object2, ... ]
+   * </code></pre>
    * @param longitude - longitude of object
    * @param latitude - latitude of object
    * @param radius - radius in geo units
@@ -200,6 +229,11 @@ public class RedissonGeo<V> {
    * within the borders of the area specified with the center location 
    * and the maximum distance from the center (the radius) 
    * in <code>GeoUnit</code> units with <code>GeoOrder</code>
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [ object1, object2, ... ]
+   * </code></pre>
    * @param longitude - longitude of object
    * @param latitude - latitude of object
    * @param radius - radius in geo units
@@ -226,6 +260,11 @@ public class RedissonGeo<V> {
    * and the maximum distance from the center (the radius) 
    * in <code>GeoUnit</code> units with <code>GeoOrder</code>
    * and limited by count
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [ object1, object2, ... ]
+   * </code></pre>
    * @param longitude - longitude of object
    * @param latitude - latitude of object
    * @param radius - radius in geo units
@@ -253,6 +292,16 @@ public class RedissonGeo<V> {
    * are within the borders of the area specified with the center location 
    * and the maximum distance from the center (the radius) 
    * in <code>GeoUnit</code> units.
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    distance: double
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param longitude - longitude of object
    * @param latitude - latitude of object
    * @param radius - radius in geo units
@@ -278,6 +327,16 @@ public class RedissonGeo<V> {
    * are within the borders of the area specified with the center location 
    * and the maximum distance from the center (the radius) 
    * in <code>GeoUnit</code> units and limited by count.
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    distance: double
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param longitude - longitude of object
    * @param latitude - latitude of object
    * @param radius - radius in geo units
@@ -304,6 +363,16 @@ public class RedissonGeo<V> {
    * are within the borders of the area specified with the center location 
    * and the maximum distance from the center (the radius) 
    * in <code>GeoUnit</code> units with <code>GeoOrder</code>
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    distance: double
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param longitude - longitude of object
    * @param latitude - latitude of object
    * @param radius - radius in geo units
@@ -331,6 +400,16 @@ public class RedissonGeo<V> {
    * and the maximum distance from the center (the radius) 
    * in <code>GeoUnit</code> units with <code>GeoOrder</code>
    * and limited by count
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    distance: double
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param longitude - longitude of object
    * @param latitude - latitude of object
    * @param radius - radius in geo units
@@ -358,6 +437,19 @@ public class RedissonGeo<V> {
    * are within the borders of the area specified with the center location 
    * and the maximum distance from the center (the radius) 
    * in <code>GeoUnit</code> units.
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    geoPosition: {
+   *        longitude: double,
+   *        latitude: double
+   *    }
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param longitude - longitude of object
    * @param latitude - latitude of object
    * @param radius - radius in geo units
@@ -383,6 +475,19 @@ public class RedissonGeo<V> {
    * are within the borders of the area specified with the center location 
    * and the maximum distance from the center (the radius) 
    * in <code>GeoUnit</code> units and limited by count
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    geoPosition: {
+   *        longitude: double,
+   *        latitude: double
+   *    }
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param longitude - longitude of object
    * @param latitude - latitude of object
    * @param radius - radius in geo units
@@ -409,6 +514,19 @@ public class RedissonGeo<V> {
    * are within the borders of the area specified with the center location 
    * and the maximum distance from the center (the radius) 
    * in <code>GeoUnit</code> units with <code>GeoOrder</code>
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    geoPosition: {
+   *        longitude: double,
+   *        latitude: double
+   *    }
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param longitude - longitude of object
    * @param latitude - latitude of object
    * @param radius - radius in geo units
@@ -436,6 +554,19 @@ public class RedissonGeo<V> {
    * and the maximum distance from the center (the radius) 
    * in <code>GeoUnit</code> units with <code>GeoOrder</code>
    * and limited by count
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    geoPosition: {
+   *        longitude: double,
+   *        latitude: double
+   *    }
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param longitude - longitude of object
    * @param latitude - latitude of object
    * @param radius - radius in geo units
@@ -462,6 +593,11 @@ public class RedissonGeo<V> {
    * within the borders of the area specified with the defined member location
    * and the maximum distance from the defined member location (the radius) 
    * in <code>GeoUnit</code> units.
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [ object1, object2, ... ]
+   * </code></pre>
    * @param member - object
    * @param radius - radius in geo units
    * @param geoUnit - geo unit
@@ -485,6 +621,11 @@ public class RedissonGeo<V> {
    * within the borders of the area specified with the defined member location
    * and the maximum distance from the defined member location (the radius) 
    * in <code>GeoUnit</code> units and limited by count
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [ object1, object2, ... ]
+   * </code></pre>
    * @param member - object
    * @param radius - radius in geo units
    * @param geoUnit - geo unit
@@ -509,6 +650,11 @@ public class RedissonGeo<V> {
    * within the borders of the area specified with the defined member location
    * and the maximum distance from the defined member location (the radius) 
    * in <code>GeoUnit</code> units with <code>GeoOrder</code>
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [ object1, object2, ... ]
+   * </code></pre>
    * @param member - object
    * @param radius - radius in geo units
    * @param geoUnit - geo unit
@@ -533,6 +679,11 @@ public class RedissonGeo<V> {
    * within the borders of the area specified with the defined member location
    * and the maximum distance from the defined member location (the radius) 
    * in <code>GeoUnit</code> units with <code>GeoOrder</code>
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [ object1, object2, ... ]
+   * </code></pre>
    * @param member - object
    * @param radius - radius in geo units
    * @param geoUnit - geo unit
@@ -559,6 +710,16 @@ public class RedissonGeo<V> {
    * are within the borders of the area specified with the defined member location 
    * and the maximum distance from the defined member location (the radius) 
    * in <code>GeoUnit</code> units.
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    distance: double
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param member - object
    * @param radius - radius in geo units
    * @param geoUnit - geo unit
@@ -583,6 +744,16 @@ public class RedissonGeo<V> {
    * are within the borders of the area specified with the defined member location 
    * and the maximum distance from the defined member location (the radius) 
    * in <code>GeoUnit</code> units and limited by count
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    distance: double
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param member - object
    * @param radius - radius in geo units
    * @param geoUnit - geo unit
@@ -608,6 +779,16 @@ public class RedissonGeo<V> {
    * are within the borders of the area specified with the defined member location 
    * and the maximum distance from the defined member location (the radius) 
    * in <code>GeoUnit</code> units with <code>GeoOrder</code>
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    distance: double
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param member - object
    * @param radius - radius in geo units
    * @param geoUnit - geo unit
@@ -634,6 +815,16 @@ public class RedissonGeo<V> {
    * and the maximum distance from the defined member location (the radius) 
    * in <code>GeoUnit</code> units with <code>GeoOrder</code>
    * and limited by count
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    distance: double
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param member - object
    * @param radius - radius in geo units
    * @param geoUnit - geo unit
@@ -660,6 +851,19 @@ public class RedissonGeo<V> {
    * are within the borders of the area specified with the defined member location 
    * and the maximum distance from the defined member location (the radius) 
    * in <code>GeoUnit</code> units.
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    geoPosition: {
+   *        longitude: double,
+   *        latitude: double
+   *    }
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param member - object
    * @param radius - radius in geo units
    * @param geoUnit - geo unit
@@ -684,6 +888,19 @@ public class RedissonGeo<V> {
    * are within the borders of the area specified with the defined member location 
    * and the maximum distance from the defined member location (the radius) 
    * in <code>GeoUnit</code> units and limited by count
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    geoPosition: {
+   *        longitude: double,
+   *        latitude: double
+   *    }
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param member - object
    * @param radius - radius in geo units
    * @param geoUnit - geo unit
@@ -709,6 +926,19 @@ public class RedissonGeo<V> {
    * are within the borders of the area specified with the defined member location 
    * and the maximum distance from the defined member location (the radius) 
    * in <code>GeoUnit</code> units with <code>GeoOrder</code>
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    geoPosition: {
+   *        longitude: double,
+   *        latitude: double
+   *    }
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param member - object
    * @param radius - radius in geo units
    * @param geoUnit - geo unit
@@ -735,6 +965,19 @@ public class RedissonGeo<V> {
    * and the maximum distance from the defined member location (the radius) 
    * in <code>GeoUnit</code> units with <code>GeoOrder</code>
    * and limited by count
+   * 
+   * Result JsonArray format:
+   * <pre><code>
+   * [{
+   *    member: Object,
+   *    geoPosition: {
+   *        longitude: double,
+   *        latitude: double
+   *    }
+   * },
+   * ...
+   * ]
+   * </code></pre>
    * @param member - object
    * @param radius - radius in geo units
    * @param geoUnit - geo unit

@@ -70,12 +70,14 @@ var RedissonGeo = function(j_val) {
    sorted set, not including elements already existing for which 
    the score was updated.
    
-   JsonObject format: 
+   Required JsonObject format: 
+   <pre><code>
    {
         longitude: double,
         latitude: double,
         member: Object
    }
+   </code></pre>
 
    @public
    @param entry {Object} - JsonObject object. 
@@ -125,12 +127,14 @@ var RedissonGeo = function(j_val) {
    of a JsonArray.
    
    Result JsonArray format:
+   <pre><code>
    [{
       member: Object,
       hash: String
    },
    ...
    ]
+   </code></pre>
 
    @public
    @param members {todo} - objects 
@@ -153,6 +157,19 @@ var RedissonGeo = function(j_val) {
 
   /**
    Returns geo-position mapped by defined member in a form of a JsonArray.
+   
+   Result JsonArray format:
+   <pre><code>
+   [{
+      member: Object,
+      geoPosition: {
+          longitude: double,
+          latitude: double
+      }
+   },
+   ...
+   ]
+   </code></pre>
 
    @public
    @param members {todo} - objects 
@@ -179,6 +196,11 @@ var RedissonGeo = function(j_val) {
    and the maximum distance from the center (the radius) 
    in <code>GeoUnit</code> units with <code>GeoOrder</code>
    and limited by count
+   
+   Result JsonArray format:
+   <pre><code>
+   [ object1, object2, ... ]
+   </code></pre>
 
    @public
    @param longitude {number} - longitude of object 
@@ -274,6 +296,16 @@ var RedissonGeo = function(j_val) {
    and the maximum distance from the center (the radius) 
    in <code>GeoUnit</code> units with <code>GeoOrder</code>
    and limited by count
+   
+   Result JsonArray format:
+   <pre><code>
+   [{
+      member: Object,
+      distance: double
+   },
+   ...
+   ]
+   </code></pre>
 
    @public
    @param longitude {number} - longitude of object 
@@ -369,6 +401,19 @@ var RedissonGeo = function(j_val) {
    and the maximum distance from the center (the radius) 
    in <code>GeoUnit</code> units with <code>GeoOrder</code>
    and limited by count
+   
+   Result JsonArray format:
+   <pre><code>
+   [{
+      member: Object,
+      geoPosition: {
+          longitude: double,
+          latitude: double
+      }
+   },
+   ...
+   ]
+   </code></pre>
 
    @public
    @param longitude {number} - longitude of object 

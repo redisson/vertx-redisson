@@ -38,12 +38,14 @@ module VertxRedisson
     #  sorted set, not including elements already existing for which 
     #  the score was updated.
     #  
-    #  JsonObject format: 
+    #  Required JsonObject format: 
+    #  <pre><code>
     #  {
     #       longitude: double,
     #       latitude: double,
     #       member: Object
     #  }
+    #  </code></pre>
     # @param [Hash{String => Object}] entry - JsonObject object.
     # @yield - Handler for the result of this call.
     # @return [self]
@@ -71,12 +73,14 @@ module VertxRedisson
     #  of a JsonArray.
     #  
     #  Result JsonArray format:
+    #  <pre><code>
     #  [{
     #     member: Object,
     #     hash: String
     #  },
     #  ...
     #  ]
+    #  </code></pre>
     # @param [Array<String,Object>] members - objects
     # @yield - Handler for the result of this call.
     # @return [self]
@@ -88,6 +92,19 @@ module VertxRedisson
       raise ArgumentError, "Invalid arguments when calling hash(members)"
     end
     #  Returns geo-position mapped by defined member in a form of a JsonArray.
+    #  
+    #  Result JsonArray format:
+    #  <pre><code>
+    #  [{
+    #     member: Object,
+    #     geoPosition: {
+    #         longitude: double,
+    #         latitude: double
+    #     }
+    #  },
+    #  ...
+    #  ]
+    #  </code></pre>
     # @param [Array<String,Object>] members - objects
     # @yield - Handler for the result of this call.
     # @return [self]
@@ -103,6 +120,11 @@ module VertxRedisson
     #  and the maximum distance from the center (the radius) 
     #  in <code>GeoUnit</code> units with <code>GeoOrder</code>
     #  and limited by count
+    #  
+    #  Result JsonArray format:
+    #  <pre><code>
+    #  [ object1, object2, ... ]
+    #  </code></pre>
     # @overload radius(member,radius,geoUnit,handler)
     #   @param [Object] member - object
     #   @param [Float] radius - radius in geo units
@@ -190,6 +212,16 @@ module VertxRedisson
     #  and the maximum distance from the center (the radius) 
     #  in <code>GeoUnit</code> units with <code>GeoOrder</code>
     #  and limited by count
+    #  
+    #  Result JsonArray format:
+    #  <pre><code>
+    #  [{
+    #     member: Object,
+    #     distance: double
+    #  },
+    #  ...
+    #  ]
+    #  </code></pre>
     # @overload radiusWithDistance(member,radius,geoUnit,handler)
     #   @param [Object] member - object
     #   @param [Float] radius - radius in geo units
@@ -277,6 +309,19 @@ module VertxRedisson
     #  and the maximum distance from the center (the radius) 
     #  in <code>GeoUnit</code> units with <code>GeoOrder</code>
     #  and limited by count
+    #  
+    #  Result JsonArray format:
+    #  <pre><code>
+    #  [{
+    #     member: Object,
+    #     geoPosition: {
+    #         longitude: double,
+    #         latitude: double
+    #     }
+    #  },
+    #  ...
+    #  ]
+    #  </code></pre>
     # @overload radiusWithPosition(member,radius,geoUnit,handler)
     #   @param [Object] member - object
     #   @param [Float] radius - radius in geo units
