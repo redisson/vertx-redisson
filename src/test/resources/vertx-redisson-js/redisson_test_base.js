@@ -153,11 +153,11 @@ var RedissonTestSuit = function (name) {
                 if (typeof ts === "function") {
                     this.test(n, ts);
                 } else {
-                    var args = [n];//name
-                    ts.version && args.push(ts.version);//version
-                    args.push(ts.fn);//let test method fail fn when undefined.
-                    ts.timeout && args.push(ts.timeout);//timeout
-                    this.test.apply(this, args);
+                    var argss = [n];//name
+                    ts.version && argss.push(ts.version);//version
+                    argss.push(ts.fn);//let test method fail fn when undefined.
+                    ts.timeout && argss.push(ts.timeout);//timeout
+                    this.test.apply(this, argss);
                 }
             }
         },
