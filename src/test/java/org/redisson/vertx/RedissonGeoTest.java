@@ -260,6 +260,7 @@ public class RedissonGeoTest extends RedissonTestBase {
         }));
         await();
     }
+    
     @Test
     public void testRadiusOrderCount() {
         RedissonGeo<String> geo = redisson.getGeo("test");
@@ -428,7 +429,7 @@ public class RedissonGeoTest extends RedissonTestBase {
         RedissonGeo<String> geo = redisson.getGeo("test");
 
         Map<String, String> map = new HashMap<String, String>();
-       for (int i = 0; i < 150; i++) {
+        for (int i = 0; i < 150; i++) {
             map.put("" + i, "" + i);
         }
         CountDownLatch l = new CountDownLatch(3);
