@@ -207,14 +207,6 @@ var RedissonTestSuit = function (name) {
                     stopRedisson.call(me, context, sharedRedisson);
                 }
             });
-            tests[counter] = {
-                name: "Finish Test Workaround",
-                version: requiredRedisVersion,
-                fn: function (context, redisson, async) {
-                    async.complete();
-                },
-                timeout: defaultTestTimeout
-            };
             for (var t = 0; t < tests.length; t++) {
                 var test = tests[t];
                 var tt = function (test) {
