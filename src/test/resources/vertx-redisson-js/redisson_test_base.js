@@ -217,21 +217,24 @@ var RedissonTestSuit = function (name) {
             };
             for (var t = 0; t < tests.length; t++) {
                 var test = tests[t];
-                suite.test(test.name, function (context) {
-                    if (RedisVersion.compareTo(redisVer, test.version) < 0) {
-                        context.fail("Required Redis version is ["
-                                + test.version
-                                + "] while detected Redis version is only ["
-                                + redisVer + "]");
-                    }
-                    var async = context.async();
-                    test.fn(context
-                            , restartRedisson
-                            ? context.get("redisson")
-                            : sharedRedisson
-                            , async);
-                    async.awaitSuccess();
-                });
+                var tt = function (test) {
+                    return function (context) {
+                        if (RedisVersion.compareTo(redisVer, test.version) < 0) {
+                            context.fail("Required Redis version is ["
+                                    + test.version
+                                    + "] while detected Redis version is only ["
+                                    + redisVer + "]");
+                        }
+                        var async = context.async();
+                        test.fn(context
+                                , restartRedisson
+                                ? context.get("redisson")
+                                : sharedRedisson
+                                , async);
+                        async.awaitSuccess(test.timeout);
+                    };
+                };
+                suite.test(test.name, tt(test));
             }
             suite.run(vertx, {
                 "reporters": [
