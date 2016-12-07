@@ -87,7 +87,11 @@ public class ObjectTransformers {
             Function<JsonObject, T> elementTransformer,
             IntFunction<T[]> arraySupplier) {
         return r -> {
-            Stream stream = r.getList().stream().map(elementTransformer);
+            Stream stream = r.getList().stream().map(m -> m instanceof JsonObject
+                    ? elementTransformer.apply((JsonObject) m)
+                    : m instanceof Map
+                            ? elementTransformer.apply(new JsonObject((Map) m))
+                            : m);
             return (T[]) stream.toArray(arraySupplier);
         };
     }
