@@ -18,6 +18,9 @@
  * :toc: left
  *
  * Vert.x Redisson Test module is to used to test Redisson Vert.x Redisson Module.
+ * 
+ * @author Rui Gu (https://github.com/jackygurui)
+ * 
  */
 @ModuleGen(name = "vertx-redisson-test", groupPackage = "org.redisson")
 @Document(fileName = "index.adoc")

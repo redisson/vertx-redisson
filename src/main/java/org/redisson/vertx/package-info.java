@@ -18,10 +18,9 @@
  * :toc: left
  *
  * Vert.x-redisson module is to used Redisson in Vert.x.
- */
-/**
- *
+ * 
  * @author Rui Gu (https://github.com/jackygurui)
+ * 
  */
 @ModuleGen(name = "vertx-redisson", groupPackage = "org.redisson")
 @Document(fileName = "index.adoc")
