@@ -15,15 +15,10 @@
  */
 package org.redisson.vertx.config;
 
-import io.netty.channel.EventLoopGroup;
 import io.vertx.codegen.annotations.DataObject;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import org.redisson.client.codec.Codec;
-import org.redisson.codec.CodecProvider;
-import org.redisson.liveobject.provider.ResolverProvider;
 
 /**
  *
@@ -131,19 +126,17 @@ public class Config {
     public Boolean isRedissonReferenceEnabled() {
         return json.getBoolean("redissonReferenceEnabled");
     }
-//
-//    public ClusterServersConfig useClusterServers() {
-//    }
-//
-//    void setClusterServersConfig(ClusterServersConfig clusterServersConfig) {
-//    }
-//
-//    public ElasticacheServersConfig useElasticacheServers() {
-//    }
-//
-//    void setElasticacheServersConfig(ElasticacheServersConfig elasticacheServersConfig) {
-//    }
 
+    public ClusterServersConfig useClusterServers() {
+        json.put("clusterServersConfig", new JsonObject());
+        return new ClusterServersConfig(json.getJsonObject("clusterServersConfig"));
+    }
+
+    public ElasticacheServersConfig useElasticacheServers() {
+        json.put("elasticacheServersConfig", new JsonObject());
+        return new ElasticacheServersConfig(json.getJsonObject("elasticacheServersConfig"));
+    }
+    
     /**
      * Init single server configuration.
      *
@@ -154,19 +147,16 @@ public class Config {
         return new SingleServerConfig(json.getJsonObject("singleServerConfig"));
     }
     
-//
-//    public SentinelServersConfig useSentinelServers() {
-//    }
-//
-//    void setSentinelServersConfig(SentinelServersConfig sentinelConnectionConfig) {
-//    }
-//
-//    public MasterSlaveServersConfig useMasterSlaveServers() {
-//    }
-//
-//    void setMasterSlaveServersConfig(MasterSlaveServersConfig masterSlaveConnectionConfig) {
-//    }
-
+    public SentinelServersConfig useSentinelServers() {
+        json.put("sentinelServersConfig", new JsonObject());
+        return new SentinelServersConfig(json.getJsonObject("sentinelServersConfig"));
+    }
+    
+    public MasterSlaveServersConfig useMasterSlaveServers() {
+        json.put("masterSlaveConfig", new JsonObject());
+        return new MasterSlaveServersConfig(json.getJsonObject("masterSlaveConfig"));
+    }
+    
     /**
      * Threads amount shared across all listeners of <code>RTopic</code> object, 
      * invocation handlers of <code>RRemoteService</code> object  
