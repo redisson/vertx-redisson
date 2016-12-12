@@ -81,13 +81,13 @@ Timeout during connecting to any Redis server.
 +++
 Minimum idle Redis connection amount.
  <p>
- Default is 5
+ Default is 10
 +++
 |[[connectionPoolSize]]`connectionPoolSize`|`Number (Integer)`|
 +++
 Redis connection pool size
  <p>
- Default is <code>250</code>
+ Default is <code>64</code>
 +++
 |[[database]]`database`|`Number (Integer)`|
 +++

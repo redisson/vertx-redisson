@@ -34,7 +34,7 @@ public class SingleServerConfig {
     }
     
     /**************************************************************************/
-    // Basic config start
+    // Base config start
     
     /**
      * Subscriptions per Redis connection limit
@@ -240,13 +240,13 @@ public class SingleServerConfig {
         return json.getInteger("failedAttempts");
     }
 
-    // Basic config end
+    // Base config end
     /**************************************************************************/
     
     /**
      * Redis connection pool size
      * <p>
-     * Default is <code>250</code>
+     * Default is <code>64</code>
      *
      * @param connectionPoolSize - pool size
      * @return this
@@ -348,7 +348,7 @@ public class SingleServerConfig {
     /**
      * Minimum idle Redis connection amount.
      * <p>
-     * Default is 5
+     * Default is 10
      *
      * @param connectionMinimumIdleSize - connections amount
      * @return this
