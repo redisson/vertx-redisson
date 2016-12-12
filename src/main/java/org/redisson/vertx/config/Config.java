@@ -127,12 +127,22 @@ public class Config {
         return json.getBoolean("redissonReferenceEnabled");
     }
 
+    private void clearConfigTypes() {
+        json.remove("clusterServersConfig");
+        json.remove("elasticacheServersConfig");
+        json.remove("singleServerConfig");
+        json.remove("sentinelServersConfig");
+        json.remove("masterSlaveConfig");
+    }
+    
     public ClusterServersConfig useClusterServers() {
+        clearConfigTypes();
         json.put("clusterServersConfig", new JsonObject());
         return new ClusterServersConfig(json.getJsonObject("clusterServersConfig"));
     }
 
     public ElasticacheServersConfig useElasticacheServers() {
+        clearConfigTypes();
         json.put("elasticacheServersConfig", new JsonObject());
         return new ElasticacheServersConfig(json.getJsonObject("elasticacheServersConfig"));
     }
@@ -143,16 +153,19 @@ public class Config {
      * @return SingleServerConfig
      */
     public SingleServerConfig useSingleServer() {
+        clearConfigTypes();
         json.put("singleServerConfig", new JsonObject());
         return new SingleServerConfig(json.getJsonObject("singleServerConfig"));
     }
     
     public SentinelServersConfig useSentinelServers() {
+        clearConfigTypes();
         json.put("sentinelServersConfig", new JsonObject());
         return new SentinelServersConfig(json.getJsonObject("sentinelServersConfig"));
     }
     
     public MasterSlaveServersConfig useMasterSlaveServers() {
+        clearConfigTypes();
         json.put("masterSlaveConfig", new JsonObject());
         return new MasterSlaveServersConfig(json.getJsonObject("masterSlaveConfig"));
     }
