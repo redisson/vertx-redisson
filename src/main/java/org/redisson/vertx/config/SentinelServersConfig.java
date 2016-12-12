@@ -15,6 +15,7 @@
  */
 package org.redisson.vertx.config;
 
+import io.vertx.codegen.annotations.DataObject;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -26,8 +27,7 @@ import org.redisson.config.ReadMode;
  *
  * @author Rui Gu (https://github.com/jackygurui)
  */
-
-
+@DataObject
 public class SentinelServersConfig {
     
     private final JsonObject json;
@@ -435,7 +435,7 @@ public class SentinelServersConfig {
      * @return config
      */
     @Fluent
-    public SentinelServersConfig addSentinelAddress(JsonArray addresses) {
+    public SentinelServersConfig addSentinelAddr(JsonArray addresses) {
         if (!json.containsKey("sentinelAddresses")) {
             json.put("sentinelAddresses", new JsonArray());
         }
@@ -448,8 +448,8 @@ public class SentinelServersConfig {
     }
     
     @Fluent
-    public SentinelServersConfig addSentinelAddress(String slaveAddress) {
-        return addSentinelAddress(new JsonArray().add(slaveAddress));
+    public SentinelServersConfig addSentinelAddr(String slaveAddress) {
+        return addSentinelAddr(new JsonArray().add(slaveAddress));
     }
     
     public JsonArray getSentinelAddresses() {

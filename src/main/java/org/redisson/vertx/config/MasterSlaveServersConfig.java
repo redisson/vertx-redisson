@@ -15,6 +15,7 @@
  */
 package org.redisson.vertx.config;
 
+import io.vertx.codegen.annotations.DataObject;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -26,8 +27,7 @@ import org.redisson.config.ReadMode;
  *
  * @author Rui Gu (https://github.com/jackygurui)
  */
-
-
+@DataObject
 public class MasterSlaveServersConfig {
     
     private final JsonObject json;
@@ -436,7 +436,7 @@ public class MasterSlaveServersConfig {
      * @return config
      */
     @Fluent
-    public MasterSlaveServersConfig addSlaveAddress(JsonArray addresses) {
+    public MasterSlaveServersConfig addSlaveAddr(JsonArray addresses) {
         if (!json.containsKey("slaveAddresses")) {
             json.put("slaveAddresses", new JsonArray());
         }
@@ -448,8 +448,9 @@ public class MasterSlaveServersConfig {
         return this;
     }
     
-    public MasterSlaveServersConfig addSlaveAddress(String slaveAddress) {
-        return addSlaveAddress(new JsonArray().add(slaveAddress));
+    @Fluent
+    public MasterSlaveServersConfig addSlaveAddr(String slaveAddress) {
+        return addSlaveAddr(new JsonArray().add(slaveAddress));
     }
     
     public JsonArray getSlaveAddresses() {

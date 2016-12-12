@@ -15,6 +15,7 @@
  */
 package org.redisson.vertx.config;
 
+import io.vertx.codegen.annotations.DataObject;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -26,8 +27,7 @@ import org.redisson.config.ReadMode;
  *
  * @author Rui Gu (https://github.com/jackygurui)
  */
-
-
+@DataObject
 public class ElasticacheServersConfig {
     
     private final JsonObject json;
@@ -419,7 +419,7 @@ public class ElasticacheServersConfig {
      * @return config
      */
     @Fluent
-    public ElasticacheServersConfig addNodeAddress(JsonArray addresses) {
+    public ElasticacheServersConfig addNodeAddr(JsonArray addresses) {
         if (!json.containsKey("nodeAddresses")) {
             json.put("nodeAddresses", new JsonArray());
         }
@@ -432,8 +432,8 @@ public class ElasticacheServersConfig {
     }
     
     @Fluent
-    public ElasticacheServersConfig addNodeAddress(String slaveAddress) {
-        return addNodeAddress(new JsonArray().add(slaveAddress));
+    public ElasticacheServersConfig addNodeAddr(String slaveAddress) {
+        return addNodeAddr(new JsonArray().add(slaveAddress));
     }
     
     public JsonArray getNodeAddresses() {

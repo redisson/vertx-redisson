@@ -15,6 +15,7 @@
  */
 package org.redisson.vertx.config;
 
+import io.vertx.codegen.annotations.DataObject;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -26,8 +27,7 @@ import org.redisson.config.ReadMode;
  *
  * @author Rui Gu (https://github.com/jackygurui)
  */
-
-
+@DataObject
 public class ClusterServersConfig {
     
     private final JsonObject json;
@@ -419,7 +419,7 @@ public class ClusterServersConfig {
      * @return config
      */
     @Fluent
-    public ClusterServersConfig addNodeAddress(JsonArray addresses) {
+    public ClusterServersConfig addNodeAddr(JsonArray addresses) {
         if (!json.containsKey("nodeAddresses")) {
             json.put("nodeAddresses", new JsonArray());
         }
@@ -432,8 +432,8 @@ public class ClusterServersConfig {
     }
     
     @Fluent
-    public ClusterServersConfig addNodeAddress(String slaveAddress) {
-        return addNodeAddress(new JsonArray().add(slaveAddress));
+    public ClusterServersConfig addNodeAddr(String slaveAddress) {
+        return addNodeAddr(new JsonArray().add(slaveAddress));
     }
     
     public JsonArray getNodeAddresses() {
