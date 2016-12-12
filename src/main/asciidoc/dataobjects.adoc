@@ -1,5 +1,144 @@
 = Cheatsheets
 
+[[ClusterServersConfig]]
+== ClusterServersConfig
+
+++++
+++++
+'''
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[clientName]]`clientName`|`String`|
++++
+Setup connection name during connection init
+ via CLIENT SETNAME command
++++
+|[[connectTimeout]]`connectTimeout`|`Number (Integer)`|
++++
+Timeout during connecting to any Redis server.
+ <p>
+ Default is <code>10000</code> milliseconds.
++++
+|[[failedAttempts]]`failedAttempts`|`Number (Integer)`|
++++
+Redis server will be excluded from the internal list of available nodes
+ when sequential unsuccessful execution attempts of any Redis command
+ on this server reaches <code>failedAttempts</code>.
+ <p>
+ Default is 3
++++
+|[[idleConnectionTimeout]]`idleConnectionTimeout`|`Number (Integer)`|
++++
+If pooled connection not used for a <code>timeout</code> time
+ and current connections amount bigger than minimum idle connections pool size,
+ then it will closed and removed from pool.
++++
+|[[loadBalancer]]`loadBalancer`|`String`|
++++
+Сonnection load balancer to multiple Redis slave servers.
+ Uses Round-robin algorithm by default
++++
+|[[masterConnectionMinimumIdleSize]]`masterConnectionMinimumIdleSize`|`Number (Integer)`|
++++
+Redis 'master' node minimum idle connection amount for <b>each</b> slave node
+ <p>
+ Default is <code>10</code>
+ <p>
++++
+|[[masterConnectionPoolSize]]`masterConnectionPoolSize`|`Number (Integer)`|
++++
+Redis 'master' server connection pool size.
+ <p>
+ Default is <code>64</code>
++++
+|[[nodeAddresses]]`nodeAddresses`|`Json array`|-
+|[[nodeAddrs]]`nodeAddrs`|`Array of String`|-
+|[[password]]`password`|`String`|
++++
+Password for Redis authentication. Should be null if not needed
+ Default is <code>null</code>
++++
+|[[pingTimeout]]`pingTimeout`|`Number (Integer)`|
++++
+Ping timeout used in <code>Node.ping</code> and <code>Node.pingAll</code> operation
++++
+|[[readMode]]`readMode`|`link:enums.html#ReadMode[ReadMode]`|
++++
+Set node type used for read operation.
+ <p>
+ Default is <code>SLAVE</code>
++++
+|[[reconnectionTimeout]]`reconnectionTimeout`|`Number (Integer)`|
++++
+Reconnection attempt timeout to Redis server when
+ it has been excluded from internal list of available servers.
+ <p>
+ On every such timeout event Redisson tries
+ to connect to disconnected Redis server.
+ <p>
+ Default is 3000
++++
+|[[retryAttempts]]`retryAttempts`|`Number (Integer)`|
++++
+Error will be thrown if Redis command can't be sended to Redis server after <code>retryAttempts</code>.
+ But if it sent succesfully then <code>timeout</code> will be started.
+ <p>
+ Default is <code>3</code> attempts
++++
+|[[retryInterval]]`retryInterval`|`Number (Integer)`|
++++
+Time interval after which another one attempt to send Redis command will be executed.
+ <p>
+ Default is <code>1500</code> milliseconds
++++
+|[[scanInterval]]`scanInterval`|`Number (Integer)`|
++++
+Elasticache node scan interval in milliseconds
++++
+|[[slaveConnectionMinimumIdleSize]]`slaveConnectionMinimumIdleSize`|`Number (Integer)`|
++++
+Redis 'slave' node minimum idle connection amount for <b>each</b> slave node
+ <p>
+ Default is <code>10</code>
+ <p>
++++
+|[[slaveConnectionPoolSize]]`slaveConnectionPoolSize`|`Number (Integer)`|
++++
+Redis 'slave' servers connection pool size for <b>each</b> slave node.
+ <p>
+ Default is <code>64</code>
+ <p>
++++
+|[[slaveSubscriptionConnectionMinimumIdleSize]]`slaveSubscriptionConnectionMinimumIdleSize`|`Number (Integer)`|
++++
+Redis 'slave' node minimum idle subscription (pub/sub) connection amount for <b>each</b> slave node.
+ <p>
+ Default is <code>1</code>
+ <p>
++++
+|[[slaveSubscriptionConnectionPoolSize]]`slaveSubscriptionConnectionPoolSize`|`Number (Integer)`|
++++
+Redis 'slave' node maximum subscription (pub/sub) connection pool size for <b>each</b> slave node
+ <p>
+ Default is <code>50</code>
+ <p>
++++
+|[[subscriptionsPerConnection]]`subscriptionsPerConnection`|`Number (Integer)`|
++++
+Subscriptions per Redis connection limit
+ Default is 5
++++
+|[[timeout]]`timeout`|`Number (Integer)`|
++++
+Redis server response timeout.
+ <p>
+ Default is <code>3000</code> milliseconds
++++
+|===
+
 [[Config]]
 == Config
 
@@ -48,6 +187,438 @@ Threads amount shared across all listeners of <code>RTopic</code> object,
 Activates an unix socket if servers binded to loopback interface.
  Also used for epoll transport activation.
  <b>netty-transport-native-epoll</b> library should be in classpath
++++
+|===
+
+[[ElasticacheServersConfig]]
+== ElasticacheServersConfig
+
+++++
+++++
+'''
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[clientName]]`clientName`|`String`|
++++
+Setup connection name during connection init
+ via CLIENT SETNAME command
++++
+|[[connectTimeout]]`connectTimeout`|`Number (Integer)`|
++++
+Timeout during connecting to any Redis server.
+ <p>
+ Default is <code>10000</code> milliseconds.
++++
+|[[database]]`database`|`Number (Integer)`|
++++
+Database index used for Redis connection
+ Default is <code>0</code>
++++
+|[[failedAttempts]]`failedAttempts`|`Number (Integer)`|
++++
+Redis server will be excluded from the internal list of available nodes
+ when sequential unsuccessful execution attempts of any Redis command
+ on this server reaches <code>failedAttempts</code>.
+ <p>
+ Default is 3
++++
+|[[idleConnectionTimeout]]`idleConnectionTimeout`|`Number (Integer)`|
++++
+If pooled connection not used for a <code>timeout</code> time
+ and current connections amount bigger than minimum idle connections pool size,
+ then it will closed and removed from pool.
++++
+|[[loadBalancer]]`loadBalancer`|`String`|
++++
+Сonnection load balancer to multiple Redis slave servers.
+ Uses Round-robin algorithm by default
++++
+|[[masterConnectionMinimumIdleSize]]`masterConnectionMinimumIdleSize`|`Number (Integer)`|
++++
+Redis 'master' node minimum idle connection amount for <b>each</b> slave node
+ <p>
+ Default is <code>10</code>
+ <p>
++++
+|[[masterConnectionPoolSize]]`masterConnectionPoolSize`|`Number (Integer)`|
++++
+Redis 'master' server connection pool size.
+ <p>
+ Default is <code>64</code>
++++
+|[[nodeAddresses]]`nodeAddresses`|`Json array`|-
+|[[nodeAddrs]]`nodeAddrs`|`Array of String`|-
+|[[password]]`password`|`String`|
++++
+Password for Redis authentication. Should be null if not needed
+ Default is <code>null</code>
++++
+|[[pingTimeout]]`pingTimeout`|`Number (Integer)`|
++++
+Ping timeout used in <code>Node.ping</code> and <code>Node.pingAll</code> operation
++++
+|[[readMode]]`readMode`|`link:enums.html#ReadMode[ReadMode]`|
++++
+Set node type used for read operation.
+ <p>
+ Default is <code>SLAVE</code>
++++
+|[[reconnectionTimeout]]`reconnectionTimeout`|`Number (Integer)`|
++++
+Reconnection attempt timeout to Redis server when
+ it has been excluded from internal list of available servers.
+ <p>
+ On every such timeout event Redisson tries
+ to connect to disconnected Redis server.
+ <p>
+ Default is 3000
++++
+|[[retryAttempts]]`retryAttempts`|`Number (Integer)`|
++++
+Error will be thrown if Redis command can't be sended to Redis server after <code>retryAttempts</code>.
+ But if it sent succesfully then <code>timeout</code> will be started.
+ <p>
+ Default is <code>3</code> attempts
++++
+|[[retryInterval]]`retryInterval`|`Number (Integer)`|
++++
+Time interval after which another one attempt to send Redis command will be executed.
+ <p>
+ Default is <code>1500</code> milliseconds
++++
+|[[scanInterval]]`scanInterval`|`Number (Integer)`|
++++
+Elasticache node scan interval in milliseconds
++++
+|[[slaveConnectionMinimumIdleSize]]`slaveConnectionMinimumIdleSize`|`Number (Integer)`|
++++
+Redis 'slave' node minimum idle connection amount for <b>each</b> slave node
+ <p>
+ Default is <code>10</code>
+ <p>
++++
+|[[slaveConnectionPoolSize]]`slaveConnectionPoolSize`|`Number (Integer)`|
++++
+Redis 'slave' servers connection pool size for <b>each</b> slave node.
+ <p>
+ Default is <code>64</code>
+ <p>
++++
+|[[slaveSubscriptionConnectionMinimumIdleSize]]`slaveSubscriptionConnectionMinimumIdleSize`|`Number (Integer)`|
++++
+Redis 'slave' node minimum idle subscription (pub/sub) connection amount for <b>each</b> slave node.
+ <p>
+ Default is <code>1</code>
+ <p>
++++
+|[[slaveSubscriptionConnectionPoolSize]]`slaveSubscriptionConnectionPoolSize`|`Number (Integer)`|
++++
+Redis 'slave' node maximum subscription (pub/sub) connection pool size for <b>each</b> slave node
+ <p>
+ Default is <code>50</code>
+ <p>
++++
+|[[subscriptionsPerConnection]]`subscriptionsPerConnection`|`Number (Integer)`|
++++
+Subscriptions per Redis connection limit
+ Default is 5
++++
+|[[timeout]]`timeout`|`Number (Integer)`|
++++
+Redis server response timeout.
+ <p>
+ Default is <code>3000</code> milliseconds
++++
+|===
+
+[[MasterSlaveServersConfig]]
+== MasterSlaveServersConfig
+
+++++
+++++
+'''
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[clientName]]`clientName`|`String`|
++++
+Setup connection name during connection init
+ via CLIENT SETNAME command
++++
+|[[connectTimeout]]`connectTimeout`|`Number (Integer)`|
++++
+Timeout during connecting to any Redis server.
+ <p>
+ Default is <code>10000</code> milliseconds.
++++
+|[[database]]`database`|`Number (Integer)`|
++++
+Database index used for Redis connection
+ Default is <code>0</code>
++++
+|[[failedAttempts]]`failedAttempts`|`Number (Integer)`|
++++
+Redis server will be excluded from the internal list of available nodes
+ when sequential unsuccessful execution attempts of any Redis command
+ on this server reaches <code>failedAttempts</code>.
+ <p>
+ Default is 3
++++
+|[[idleConnectionTimeout]]`idleConnectionTimeout`|`Number (Integer)`|
++++
+If pooled connection not used for a <code>timeout</code> time
+ and current connections amount bigger than minimum idle connections pool size,
+ then it will closed and removed from pool.
++++
+|[[loadBalancer]]`loadBalancer`|`String`|
++++
+Сonnection load balancer to multiple Redis slave servers.
+ Uses Round-robin algorithm by default
++++
+|[[masterAddress]]`masterAddress`|`String`|
++++
+Set Redis master server address. Use follow format -- //host:port
++++
+|[[masterConnectionMinimumIdleSize]]`masterConnectionMinimumIdleSize`|`Number (Integer)`|
++++
+Redis 'master' node minimum idle connection amount for <b>each</b> slave node
+ <p>
+ Default is <code>10</code>
+ <p>
++++
+|[[masterConnectionPoolSize]]`masterConnectionPoolSize`|`Number (Integer)`|
++++
+Redis 'master' server connection pool size.
+ <p>
+ Default is <code>64</code>
++++
+|[[password]]`password`|`String`|
++++
+Password for Redis authentication. Should be null if not needed
+ Default is <code>null</code>
++++
+|[[pingTimeout]]`pingTimeout`|`Number (Integer)`|
++++
+Ping timeout used in <code>Node.ping</code> and <code>Node.pingAll</code> operation
++++
+|[[readMode]]`readMode`|`link:enums.html#ReadMode[ReadMode]`|
++++
+Set node type used for read operation.
+ <p>
+ Default is <code>SLAVE</code>
++++
+|[[reconnectionTimeout]]`reconnectionTimeout`|`Number (Integer)`|
++++
+Reconnection attempt timeout to Redis server when
+ it has been excluded from internal list of available servers.
+ <p>
+ On every such timeout event Redisson tries
+ to connect to disconnected Redis server.
+ <p>
+ Default is 3000
++++
+|[[retryAttempts]]`retryAttempts`|`Number (Integer)`|
++++
+Error will be thrown if Redis command can't be sended to Redis server after <code>retryAttempts</code>.
+ But if it sent succesfully then <code>timeout</code> will be started.
+ <p>
+ Default is <code>3</code> attempts
++++
+|[[retryInterval]]`retryInterval`|`Number (Integer)`|
++++
+Time interval after which another one attempt to send Redis command will be executed.
+ <p>
+ Default is <code>1500</code> milliseconds
++++
+|[[slaveAddresses]]`slaveAddresses`|`Json array`|-
+|[[slaveAddrs]]`slaveAddrs`|`Array of String`|-
+|[[slaveConnectionMinimumIdleSize]]`slaveConnectionMinimumIdleSize`|`Number (Integer)`|
++++
+Redis 'slave' node minimum idle connection amount for <b>each</b> slave node
+ <p>
+ Default is <code>10</code>
+ <p>
++++
+|[[slaveConnectionPoolSize]]`slaveConnectionPoolSize`|`Number (Integer)`|
++++
+Redis 'slave' servers connection pool size for <b>each</b> slave node.
+ <p>
+ Default is <code>64</code>
+ <p>
++++
+|[[slaveSubscriptionConnectionMinimumIdleSize]]`slaveSubscriptionConnectionMinimumIdleSize`|`Number (Integer)`|
++++
+Redis 'slave' node minimum idle subscription (pub/sub) connection amount for <b>each</b> slave node.
+ <p>
+ Default is <code>1</code>
+ <p>
++++
+|[[slaveSubscriptionConnectionPoolSize]]`slaveSubscriptionConnectionPoolSize`|`Number (Integer)`|
++++
+Redis 'slave' node maximum subscription (pub/sub) connection pool size for <b>each</b> slave node
+ <p>
+ Default is <code>50</code>
+ <p>
++++
+|[[subscriptionsPerConnection]]`subscriptionsPerConnection`|`Number (Integer)`|
++++
+Subscriptions per Redis connection limit
+ Default is 5
++++
+|[[timeout]]`timeout`|`Number (Integer)`|
++++
+Redis server response timeout.
+ <p>
+ Default is <code>3000</code> milliseconds
++++
+|===
+
+[[SentinelServersConfig]]
+== SentinelServersConfig
+
+++++
+++++
+'''
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[clientName]]`clientName`|`String`|
++++
+Setup connection name during connection init
+ via CLIENT SETNAME command
++++
+|[[connectTimeout]]`connectTimeout`|`Number (Integer)`|
++++
+Timeout during connecting to any Redis server.
+ <p>
+ Default is <code>10000</code> milliseconds.
++++
+|[[database]]`database`|`Number (Integer)`|
++++
+Database index used for Redis connection
+ Default is <code>0</code>
++++
+|[[failedAttempts]]`failedAttempts`|`Number (Integer)`|
++++
+Redis server will be excluded from the internal list of available nodes
+ when sequential unsuccessful execution attempts of any Redis command
+ on this server reaches <code>failedAttempts</code>.
+ <p>
+ Default is 3
++++
+|[[idleConnectionTimeout]]`idleConnectionTimeout`|`Number (Integer)`|
++++
+If pooled connection not used for a <code>timeout</code> time
+ and current connections amount bigger than minimum idle connections pool size,
+ then it will closed and removed from pool.
++++
+|[[loadBalancer]]`loadBalancer`|`String`|
++++
+Сonnection load balancer to multiple Redis slave servers.
+ Uses Round-robin algorithm by default
++++
+|[[masterConnectionMinimumIdleSize]]`masterConnectionMinimumIdleSize`|`Number (Integer)`|
++++
+Redis 'master' node minimum idle connection amount for <b>each</b> slave node
+ <p>
+ Default is <code>10</code>
+ <p>
++++
+|[[masterConnectionPoolSize]]`masterConnectionPoolSize`|`Number (Integer)`|
++++
+Redis 'master' server connection pool size.
+ <p>
+ Default is <code>64</code>
++++
+|[[masterName]]`masterName`|`String`|
++++
+Master server name used by Redis Sentinel servers and master change monitoring task.
++++
+|[[password]]`password`|`String`|
++++
+Password for Redis authentication. Should be null if not needed
+ Default is <code>null</code>
++++
+|[[pingTimeout]]`pingTimeout`|`Number (Integer)`|
++++
+Ping timeout used in <code>Node.ping</code> and <code>Node.pingAll</code> operation
++++
+|[[readMode]]`readMode`|`link:enums.html#ReadMode[ReadMode]`|
++++
+Set node type used for read operation.
+ <p>
+ Default is <code>SLAVE</code>
++++
+|[[reconnectionTimeout]]`reconnectionTimeout`|`Number (Integer)`|
++++
+Reconnection attempt timeout to Redis server when
+ it has been excluded from internal list of available servers.
+ <p>
+ On every such timeout event Redisson tries
+ to connect to disconnected Redis server.
+ <p>
+ Default is 3000
++++
+|[[retryAttempts]]`retryAttempts`|`Number (Integer)`|
++++
+Error will be thrown if Redis command can't be sended to Redis server after <code>retryAttempts</code>.
+ But if it sent succesfully then <code>timeout</code> will be started.
+ <p>
+ Default is <code>3</code> attempts
++++
+|[[retryInterval]]`retryInterval`|`Number (Integer)`|
++++
+Time interval after which another one attempt to send Redis command will be executed.
+ <p>
+ Default is <code>1500</code> milliseconds
++++
+|[[sentinelAddresses]]`sentinelAddresses`|`Json array`|-
+|[[sentinelAddrs]]`sentinelAddrs`|`Array of String`|-
+|[[slaveConnectionMinimumIdleSize]]`slaveConnectionMinimumIdleSize`|`Number (Integer)`|
++++
+Redis 'slave' node minimum idle connection amount for <b>each</b> slave node
+ <p>
+ Default is <code>10</code>
+ <p>
++++
+|[[slaveConnectionPoolSize]]`slaveConnectionPoolSize`|`Number (Integer)`|
++++
+Redis 'slave' servers connection pool size for <b>each</b> slave node.
+ <p>
+ Default is <code>64</code>
+ <p>
++++
+|[[slaveSubscriptionConnectionMinimumIdleSize]]`slaveSubscriptionConnectionMinimumIdleSize`|`Number (Integer)`|
++++
+Redis 'slave' node minimum idle subscription (pub/sub) connection amount for <b>each</b> slave node.
+ <p>
+ Default is <code>1</code>
+ <p>
++++
+|[[slaveSubscriptionConnectionPoolSize]]`slaveSubscriptionConnectionPoolSize`|`Number (Integer)`|
++++
+Redis 'slave' node maximum subscription (pub/sub) connection pool size for <b>each</b> slave node
+ <p>
+ Default is <code>50</code>
+ <p>
++++
+|[[subscriptionsPerConnection]]`subscriptionsPerConnection`|`Number (Integer)`|
++++
+Subscriptions per Redis connection limit
+ Default is 5
++++
+|[[timeout]]`timeout`|`Number (Integer)`|
++++
+Redis server response timeout.
+ <p>
+ Default is <code>3000</code> milliseconds
 +++
 |===
 
