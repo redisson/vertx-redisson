@@ -420,7 +420,7 @@ public class MasterSlaveServersConfig {
      */
     @Fluent
     public MasterSlaveServersConfig setMasterAddress(String masterAddress) {
-        json.put("masterAddress", new JsonArray().add(masterAddress));
+        json.put("masterAddress", new JsonArray().add(masterAddress.contains("//") ? masterAddress : "//" + masterAddress));
         return this;
     }
     
@@ -459,7 +459,8 @@ public class MasterSlaveServersConfig {
     
     @Fluent
     public MasterSlaveServersConfig setSlaveAddresses(JsonArray slaveAddress) {
-        json.put("slaveAddresses", slaveAddress);
+        json.remove("slaveAddresses");
+        addSlaveAddr(slaveAddress);
         return this;
     }
 
