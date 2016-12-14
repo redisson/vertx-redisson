@@ -132,7 +132,7 @@ public class Config {
         json.remove("elasticacheServersConfig");
         json.remove("singleServerConfig");
         json.remove("sentinelServersConfig");
-        json.remove("masterSlaveConfig");
+        json.remove("masterSlaveServersConfig");
     }
     
     public ClusterServersConfig useClusterServers() {
@@ -166,8 +166,8 @@ public class Config {
     
     public MasterSlaveServersConfig useMasterSlaveServers() {
         clearConfigTypes();
-        json.put("masterSlaveConfig", new JsonObject());
-        return new MasterSlaveServersConfig(json.getJsonObject("masterSlaveConfig"));
+        json.put("masterSlaveServersConfig", new JsonObject());
+        return new MasterSlaveServersConfig(json.getJsonObject("masterSlaveServersConfig"));
     }
     
     /**
